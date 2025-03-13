@@ -2,27 +2,13 @@
 
 :root {
   --background: #ffffff;
-  --foreground: #171717;
-}
-
-/*@theme {*/
-/*  --color-primary: hsl(49, 100%, 7%);*/
-/*  --color-link: hsl(49, 100%, 7%);*/
-/*  --color-line: hsl(49, 23%, 90%);*/
-/*  --color-tag: hsl(49, 22%, 88%);*/
-/*}*/
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --foreground: #222222;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
-    --foreground: #ededed;
+    --foreground: #000000;
   }
 }
 
