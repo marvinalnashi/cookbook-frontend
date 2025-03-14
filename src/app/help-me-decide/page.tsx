@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation"; // Fix for App Router
 
-export default function HelpMeDecide() {
+export default function Page() {
     const router = useRouter();
     const [step, setStep] = useState(1);
     const [occasion, setOccasion] = useState<string | null>(null);
