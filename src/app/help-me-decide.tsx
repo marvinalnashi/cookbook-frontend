@@ -1,5 +1,6 @@
+"use client";
 import { useState } from "react";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation"; // Fix for App Router
 
 export default function HelpMeDecide() {
     const router = useRouter();
@@ -7,18 +8,15 @@ export default function HelpMeDecide() {
     const [occasion, setOccasion] = useState<string | null>(null);
     const [preferences, setPreferences] = useState<string[]>([]);
 
-    const handleNextStep = () => setStep(step + 1);
-    const handlePrevStep = () => setStep(step - 1);
-
     return (
         <div className="p-6">
             {step === 1 && (
                 <>
-                    <h1 className="text-2xl font-bold mb-4">What's the occasion?</h1>
+                    <h1 className="text-2xl font-bold mb-4">What is the occasion?</h1>
                     <div className="flex flex-wrap gap-4">
                         {["Breakfast", "Lunch", "Dinner", "Dessert"].map((item) => (
                             <button key={item} className="px-6 py-3 bg-green-500 text-white rounded-md"
-                                    onClick={() => { setOccasion(item); handleNextStep(); }}>
+                                    onClick={() => { setOccasion(item); setStep(step + 1); }}>
                                 {item}
                             </button>
                         ))}
@@ -37,7 +35,7 @@ export default function HelpMeDecide() {
                         ))}
                     </div>
                     <button className="px-6 py-3 bg-orange-500 text-white rounded-md mt-4"
-                            onClick={handleNextStep}>
+                            onClick={() => setStep(step + 1)}>
                         Next Step
                     </button>
                 </>

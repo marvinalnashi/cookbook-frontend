@@ -1,3 +1,4 @@
+"use client";
 export default function Options() {
     return (
         <div className="p-6">
