@@ -7,8 +7,8 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #000000;
+    --background: #121212;
+    --foreground: #ffffff;
   }
 }
 
@@ -16,4 +16,27 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+button {
+  padding: 10px 20px;
+  margin: 10px;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+button.primary {
+  background-color: #007bff;
+  color: white;
+}
+
+button.secondary {
+  background-color: #28a745;
+  color: white;
+}
+
+button.danger {
+  background-color: #dc3545;
+  color: white;
 }
