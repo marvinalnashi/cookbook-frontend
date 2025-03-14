@@ -5,8 +5,14 @@ import axios from "axios";
 
 const API_URL = process.env.NEXT_PUBLIC_BACKEND_URL || "https://little-chefs-cookbook-production.up.railway.app";
 
+interface Recipe {
+    id: number;
+    title: string;
+    description: string;
+}
+
 export default function RecipesPage() {
-    const [recipes, setRecipes] = useState([]);
+    const [recipes, setRecipes] = useState<Recipe[]>([]);
 
     useEffect(() => {
         axios.get(`${API_URL}/recipes`)
@@ -21,7 +27,7 @@ export default function RecipesPage() {
                 {recipes.length === 0 ? (
                     <p>No recipes available.</p>
                 ) : (
-                    recipes.map((recipe: any) => (
+                    recipes.map((recipe) => (
                         <li key={recipe.id} className="p-4 bg-gray-200 rounded-md">
                             <h2 className="text-lg font-semibold">{recipe.title}</h2>
                             <p>{recipe.description}</p>
