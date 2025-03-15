@@ -28,10 +28,11 @@ export default function RecipesPage() {
                     <p>No recipes available.</p>
                 ) : (
                     recipes.map((recipe) => (
-                        <li key={recipe.id} className="p-4 bg-gray-200 rounded-md">
-                            <h2 className="text-lg font-semibold">{recipe.title}</h2>
-                            <p>{recipe.description}</p>
+                        <li key={recipe.id} className="p-4 bg-white rounded-md border border-gray-300 shadow-sm">
+                            <h2 className="text-lg font-semibold text-black">{recipe.title}</h2>
+                            <p className="text-black">{recipe.description}</p>
                         </li>
+
                     ))
                 )}
             </ul>

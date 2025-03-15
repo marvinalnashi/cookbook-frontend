@@ -90,18 +90,19 @@ export default function HelpMeDecide() {
                                     <h2 className="text-xl font-bold mb-2">{category}</h2>
                                     <div className="grid grid-cols-2 gap-4">
                                         {ingredientOptions[category].map((ingredient) => (
-                                            <div key={ingredient} className="p-4 bg-gray-200 rounded-md flex justify-between items-center">
-                                                <span>{ingredient}</span>
+                                            <div key={ingredient}
+                                                 className="p-4 bg-white rounded-md flex justify-between items-center border border-gray-300 shadow-sm">
+                                                <span className="text-black">{ingredient}</span>
                                                 <div className="flex gap-2">
                                                     <button
                                                         onClick={() => handleIngredientChange(ingredient, "include")}
-                                                        className={`p-2 rounded-md ${includedIngredients.includes(ingredient) ? "bg-blue-700" : "bg-blue-500"}`}
+                                                        className={`p-2 rounded-md text-white ${includedIngredients.includes(ingredient) ? "bg-blue-700" : "bg-blue-500"}`}
                                                     >
                                                         +
                                                     </button>
                                                     <button
                                                         onClick={() => handleIngredientChange(ingredient, "exclude")}
-                                                        className={`p-2 rounded-md ${excludedIngredients.includes(ingredient) ? "bg-red-700" : "bg-red-500"}`}
+                                                        className={`p-2 rounded-md text-white ${excludedIngredients.includes(ingredient) ? "bg-red-700" : "bg-red-500"}`}
                                                     >
                                                         -
                                                     </button>
@@ -115,10 +116,12 @@ export default function HelpMeDecide() {
                     )}
 
                     <div className="mt-6 flex justify-between">
-                        <button onClick={() => setSelectedOccasion(null)} className="bg-orange-500 text-white p-4 rounded-md">
+                        <button onClick={() => setSelectedOccasion(null)}
+                                className="bg-orange-500 text-white p-4 rounded-md">
                             Go Back
                         </button>
-                        <button onClick={() => router.push("/confirmation")} className="bg-green-500 text-white p-4 rounded-md">
+                        <button onClick={() => router.push("/confirmation")}
+                                className="bg-green-500 text-white p-4 rounded-md">
                             Next Step
                         </button>
                     </div>
