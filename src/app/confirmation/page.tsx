@@ -21,10 +21,18 @@ export default function ConfirmationPage() {
 
     const fetchFilteredRecipes = async () => {
         try {
-            const response = await axios.post(`${API_URL}/recipes/filter`, {
-                occasion: selectedOccasion,
-                include: includedIngredients,
-                exclude: excludedIngredients
+            const payload = {
+                occasion: selectedOccasion || "",
+                include: includedIngredients || [],
+                exclude: excludedIngredients || []
+            };
+
+            console.log("Sending filter request with payload:", payload);
+
+            const response = await axios.post(`${API_URL}/recipes/filter`, payload, {
+                headers: {
+                    "Content-Type": "application/json"
+                }
             });
 
             setFilteredRecipes(response.data);
