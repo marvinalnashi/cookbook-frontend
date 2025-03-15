@@ -1,6 +1,9 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+    env: {
+        NEXT_PUBLIC_BACKEND_URL: "https://little-chefs-cookbook-production.up.railway.app"
+    },
     reactStrictMode: true,
     async headers() {
         return [
