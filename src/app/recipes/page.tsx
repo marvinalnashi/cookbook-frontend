@@ -18,17 +18,26 @@ export default function RecipesPage() {
     const router = useRouter();
 
     useEffect(() => {
-        axios.get(`${API_URL}/recipes`)
-            .then((response) => {
+        const fetchRecipes = async () => {
+            try {
+                console.log("Fetching recipes from:", `${API_URL}/recipes`);
+                const response = await axios.get<Recipe[]>(`${API_URL}/recipes`, {
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                });
+
                 if (response.status === 200) {
                     setRecipes(response.data);
                     setError(null);
                 }
-            })
-            .catch((err) => {
+            } catch (err) {
                 console.error("Error fetching recipes:", err);
                 setError("Could not load recipes.");
-            });
+            }
+        };
+
+        fetchRecipes();
     }, []);
 
     if (error) return <p className="p-6 text-red-500">{error}</p>;
