@@ -1,26 +1,35 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 
 export default function HelpMeDecide() {
     const router = useRouter();
 
     const [selectedOccasion, setSelectedOccasion] = useState<string | null>(null);
-
     const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
-
     const [includedIngredients, setIncludedIngredients] = useState<string[]>([]);
     const [excludedIngredients, setExcludedIngredients] = useState<string[]>([]);
 
     const ingredientOptions: { [key: string]: string[] } = {
         Dairy: ["Milk", "Cheese", "Butter", "Yoghurt"],
         Vegetables: ["Cucumber", "Tomato", "Potato", "Carrot", "Spinach"],
-        Meat: ["Beef", "Pork", "Mutton"]
+        Meat: ["Beef", "Pork", "Mutton"],
     };
+
+    useEffect(() => {
+        const savedOccasion = localStorage.getItem("selectedOccasion");
+        const savedIncluded = JSON.parse(localStorage.getItem("includedIngredients") || "[]");
+        const savedExcluded = JSON.parse(localStorage.getItem("excludedIngredients") || "[]");
+
+        if (savedOccasion) setSelectedOccasion(savedOccasion);
+        setIncludedIngredients(savedIncluded);
+        setExcludedIngredients(savedExcluded);
+    }, []);
 
     const handleOccasionSelect = (occasion: string) => {
         setSelectedOccasion(occasion);
+        localStorage.setItem("selectedOccasion", occasion);
     };
 
     const handleCategorySelect = (category: string) => {
@@ -31,17 +40,16 @@ export default function HelpMeDecide() {
 
     const handleIngredientChange = (ingredient: string, action: "include" | "exclude") => {
         if (action === "include") {
-            setIncludedIngredients(prev =>
-                prev.includes(ingredient) ? prev : [...prev, ingredient]
-            );
-            setExcludedIngredients(prev => prev.filter(item => item !== ingredient));
+            setExcludedIngredients((prev) => prev.filter((item) => item !== ingredient));
+            setIncludedIngredients((prev) => [...new Set([...prev, ingredient])]);
         } else {
-            setExcludedIngredients(prev =>
-                prev.includes(ingredient) ? prev : [...prev, ingredient]
-            );
-            setIncludedIngredients(prev => prev.filter(item => item !== ingredient));
+            setIncludedIngredients((prev) => prev.filter((item) => item !== ingredient));
+            setExcludedIngredients((prev) => [...new Set([...prev, ingredient])]);
         }
+        localStorage.setItem("includedIngredients", JSON.stringify([...includedIngredients.filter(i => i !== ingredient), ...(action === "include" ? [ingredient] : [])]));
+        localStorage.setItem("excludedIngredients", JSON.stringify([...excludedIngredients.filter(i => i !== ingredient), ...(action === "exclude" ? [ingredient] : [])]));
     };
+
 
     return (
         <div className="p-6">
