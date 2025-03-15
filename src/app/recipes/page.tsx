@@ -4,8 +4,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 
-// const API_URL = process.env.NEXT_PUBLIC_BACKEND_URL || "https://little-chefs-cookbook-production.up.railway.app";
-const API_URL = process.env.NEXT_PUBLIC_BACKEND_URL?.replace("http://", "https://") || "https://little-chefs-cookbook-production.up.railway.app";
+const API_URL = process.env.NEXT_PUBLIC_BACKEND_URL || "https://little-chefs-cookbook-production.up.railway.app";
 
 interface Recipe {
     id: number;
