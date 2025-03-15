@@ -20,8 +20,7 @@ export default function RecipesPage() {
     useEffect(() => {
         const fetchRecipes = async () => {
             try {
-                console.log("Fetching recipes 1 from:", API_URL);
-                console.log("Fetching recipes 2 from:", `${API_URL}/recipes`);
+                console.log("Fetching recipes from:", `${API_URL}/recipes`);
                 const response = await axios.get<Recipe[]>(`${API_URL}/recipes`, {
                     headers: {
                         "Content-Type": "application/json",
