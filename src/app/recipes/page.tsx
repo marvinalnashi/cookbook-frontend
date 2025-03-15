@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import axios from "axios";
+import {useRouter} from "next/navigation";
 
 const API_URL = process.env.NEXT_PUBLIC_BACKEND_URL || "https://little-chefs-cookbook-production.up.railway.app";
 
@@ -9,10 +10,14 @@ interface Recipe {
     id: number;
     title: string;
     description: string;
+    occasion: string;
+    ingredients: string[];
+    steps: string[];
 }
 
 export default function RecipesPage() {
     const [recipes, setRecipes] = useState<Recipe[]>([]);
+    const router = useRouter();
 
     useEffect(() => {
         axios.get(`${API_URL}/recipes`)
@@ -28,11 +33,12 @@ export default function RecipesPage() {
                     <p>No recipes available.</p>
                 ) : (
                     recipes.map((recipe) => (
-                        <li key={recipe.id} className="p-4 bg-white rounded-md border border-gray-300 shadow-sm">
+                        <li key={recipe.id}
+                            className="p-4 bg-white rounded-md border border-gray-300 shadow-sm cursor-pointer hover:bg-gray-100 transition"
+                            onClick={() => router.push(`/recipes/${recipe.id}`)}>
                             <h2 className="text-lg font-semibold text-black">{recipe.title}</h2>
-                            <p className="text-black">{recipe.description}</p>
+                            <p className="text-gray-700">{recipe.description}</p>
                         </li>
-
                     ))
                 )}
             </ul>

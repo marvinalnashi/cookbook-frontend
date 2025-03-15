@@ -55,7 +55,7 @@ export default function HelpMeDecide() {
         <div className="p-6">
             {!selectedOccasion ? (
                 <>
-                    <h1 className="text-2xl font-bold mb-4">What's the occasion?</h1>
+                    <h1 className="text-2xl font-bold mb-4">What is the occasion?</h1>
                     <div className="grid grid-cols-2 gap-4">
                         {["Breakfast", "Lunch", "Dinner", "Dessert"].map((occasion) => (
                             <button
