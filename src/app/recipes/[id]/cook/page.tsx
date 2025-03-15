@@ -12,13 +12,13 @@ export default function CookingModePage() {
             <div className="flex flex-col gap-4">
                 <button
                     className="bg-green-500 text-white p-4 rounded-md"
-                    onClick={() => router.push(`/recipes/${id}/free-cooking`)}
+                    onClick={() => router.push(`/recipes/${id}/cook/free-cooking`)}
                 >
                     Free Cooking
                 </button>
                 <button
                     className="bg-green-700 text-white p-4 rounded-md"
-                    onClick={() => router.push(`/recipes/${id}/guided-cooking`)}
+                    onClick={() => router.push(`/recipes/${id}/cook/guided-cooking`)}
                 >
                     Guided Cooking
                 </button>
