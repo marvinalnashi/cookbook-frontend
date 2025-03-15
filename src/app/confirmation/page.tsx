@@ -6,12 +6,18 @@ import axios from "axios";
 
 const API_URL = process.env.NEXT_PUBLIC_BACKEND_URL || "https://little-chefs-cookbook-production.up.railway.app";
 
+interface Recipe {
+    id: number;
+    title: string;
+    description: string;
+}
+
 export default function ConfirmationPage() {
     const router = useRouter();
     const [selectedOccasion, setSelectedOccasion] = useState<string | null>(null);
     const [includedIngredients, setIncludedIngredients] = useState<string[]>([]);
     const [excludedIngredients, setExcludedIngredients] = useState<string[]>([]);
-    const [filteredRecipes, setFilteredRecipes] = useState<any[]>([]);
+    const [filteredRecipes, setFilteredRecipes] = useState<Recipe[]>([]);
 
     useEffect(() => {
         setSelectedOccasion(localStorage.getItem("selectedOccasion") || "");
@@ -29,7 +35,7 @@ export default function ConfirmationPage() {
 
             console.log("Sending filter request with payload:", payload);
 
-            const response = await axios.post(`${API_URL}/recipes/filter`, payload, {
+            const response = await axios.post<Recipe[]>(`${API_URL}/recipes/filter`, payload, {
                 headers: {
                     "Content-Type": "application/json"
                 }
