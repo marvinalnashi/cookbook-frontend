@@ -17,15 +17,30 @@ interface Recipe {
 
 export default function FreeCookingPage() {
     const [recipe, setRecipe] = useState<Recipe | null>(null);
+    const [error, setError] = useState<string | null>(null);
     const { id } = useParams();
     const router = useRouter();
 
     useEffect(() => {
+        if (!id) {
+            setError("Invalid recipe ID.");
+            return;
+        }
+
         axios.get(`${API_URL}/recipes/${id}`)
-            .then((response) => setRecipe(response.data))
-            .catch((error) => console.error("Error fetching recipe:", error));
+            .then((response) => {
+                if (response.status === 200) {
+                    setRecipe(response.data);
+                    setError(null);
+                }
+            })
+            .catch((err) => {
+                console.error("Error fetching recipe:", err);
+                setError("Recipe not found.");
+            });
     }, [id]);
 
+    if (error) return <p className="p-6 text-red-500">{error}</p>;
     if (!recipe) return <p className="p-6">Loading recipe...</p>;
 
     return (

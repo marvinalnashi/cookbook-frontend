@@ -17,15 +17,35 @@ interface Recipe {
 
 export default function RecipeDetailPage() {
     const [recipe, setRecipe] = useState<Recipe | null>(null);
+    const [error, setError] = useState<string | null>(null);
     const router = useRouter();
-    const { id } = useParams();
+    const params = useParams();
+    const id = params.id ? String(params.id) : null;
 
     useEffect(() => {
+        if (!id) {
+            setError("Invalid recipe ID.");
+            return;
+        }
+
+        console.log("Fetching recipe with ID:", id);
+
         axios.get(`${API_URL}/recipes/${id}`)
-            .then((response) => setRecipe(response.data))
-            .catch((error) => console.error("Error fetching recipe:", error));
+            .then((response) => {
+                if (response.status === 200) {
+                    setRecipe(response.data);
+                    setError(null);
+                } else {
+                    setError("Recipe not found.");
+                }
+            })
+            .catch((err) => {
+                console.error("Error fetching recipe:", err);
+                setError("Recipe not found or API unreachable.");
+            });
     }, [id]);
 
+    if (error) return <p className="p-6 text-red-500">{error}</p>;
     if (!recipe) return <p className="p-6">Loading recipe...</p>;
 
     return (
