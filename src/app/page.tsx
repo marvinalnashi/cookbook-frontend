@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import LEDStatus from "@/components/led-status";
 
 const API_URL = process.env.NEXT_PUBLIC_BACKEND_URL || "https://little-chefs-cookbook-production.up.railway.app";
 
@@ -25,6 +26,7 @@ export default function Home() {
                 <button className="danger" onClick={() => router.push("/options")}>Options</button>
             </div>
             <p className="mt-4 text-sm text-gray-500">Backend Response: {pong}</p>
+            <LEDStatus />
         </div>
     );
 }
