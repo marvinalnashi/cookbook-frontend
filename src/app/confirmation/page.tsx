@@ -17,7 +17,7 @@ export default function ConfirmationPage() {
     const [selectedOccasion, setSelectedOccasion] = useState<string | null>(null);
     const [includedIngredients, setIncludedIngredients] = useState<string[]>([]);
     const [excludedIngredients, setExcludedIngredients] = useState<string[]>([]);
-    const [filteredRecipes, setFilteredRecipes] = useState<Recipe[]>([]);
+    const [filteredRecipes] = useState<Recipe[]>([]);
 
     useEffect(() => {
         setSelectedOccasion(localStorage.getItem("selectedOccasion") || "");
@@ -33,15 +33,12 @@ export default function ConfirmationPage() {
                 exclude: excludedIngredients || []
             };
 
-            console.log("Sending filter request with payload:", payload);
-
             const response = await axios.post<Recipe[]>(`${API_URL}/recipes/filter`, payload, {
-                headers: {
-                    "Content-Type": "application/json"
-                }
+                headers: { "Content-Type": "application/json" }
             });
 
-            setFilteredRecipes(response.data);
+            localStorage.setItem("filteredRecipes", JSON.stringify(response.data));
+            router.push("/recipes/filtered");
         } catch (error) {
             console.error("Error fetching filtered recipes:", error);
         }
