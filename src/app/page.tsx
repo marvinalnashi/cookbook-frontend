@@ -13,19 +13,22 @@ export default function Home() {
 
     useEffect(() => {
         axios.get(`${API_URL}/ping`)
-            .then((response) => setPong(response.data.message))
-            .catch((error) => console.error("Error fetching pong:", error));
+            .then((res) => setPong(res.data.message))
+            .catch((err) => console.error("Backend ping failed", err));
     }, []);
 
     return (
-        <div className="text-center p-6">
-            <h1 className="text-3xl font-bold mb-4">What do you want to do?</h1>
-            <div className="flex flex-col gap-4">
-                <button className="primary" onClick={() => router.push("/help-me-decide")}>Help me decide</button>
-                <button className="secondary" onClick={() => router.push("/recipes")}>All Recipes</button>
-                <button className="danger" onClick={() => router.push("/options")}>Options</button>
+        <div className="flex flex-col items-center w-full max-w-md">
+            <h1 className="text-4xl font-bold mb-8 text-center">Little Chefs</h1>
+
+            <button className="primary mb-4" onClick={() => router.push("/help-me-decide")}>Help me decide</button>
+            <button className="secondary mb-4" onClick={() => router.push("/recipes")}>View Recipes</button>
+            <button className="danger mb-4" onClick={() => router.push("/options")}>Settings</button>
+
+            <div className="text-center text-sm mt-6">
+                <p>Backend Response: {pong}</p>
             </div>
-            <p className="mt-4 text-sm text-gray-500">Backend Response: {pong}</p>
+
             <LEDStatus />
         </div>
     );
