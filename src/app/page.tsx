@@ -25,7 +25,7 @@ export default function Home() {
             </div>
 
             <div className="bg-[#FDBA74] text-center text-black font-bold text-lg px-6 py-3 rounded-full shadow mb-6">
-                WHAT DO YOU WANNA DO?
+                What would you like to do?
             </div>
 
             <button
@@ -42,7 +42,7 @@ export default function Home() {
                 onClick={() => router.push("/recipes")}
             >
                 <span className="text-2xl">📋</span>
-                <span className="flex-1 text-center">All Recipes</span>
+                <span className="flex-1 text-center">All recipes</span>
                 <span className="text-sm">🔍</span>
             </button>
 
@@ -56,7 +56,7 @@ export default function Home() {
             </button>
 
             <div className="text-sm text-center mb-2">
-                <p>Backend Response: {pong}</p>
+                <p>Backend response: {pong}</p>
             </div>
 
             <LEDStatus />

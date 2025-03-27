@@ -8,13 +8,16 @@ export default function HelpMeDecide() {
 
     const [selectedOccasion, setSelectedOccasion] = useState<string | null>(null);
     const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+    const [currentCategory, setCurrentCategory] = useState<string | null>(null);
+    const [mode, setMode] = useState<"include" | "exclude" | null>(null);
+
     const [includedIngredients, setIncludedIngredients] = useState<string[]>([]);
     const [excludedIngredients, setExcludedIngredients] = useState<string[]>([]);
 
     const ingredientOptions: { [key: string]: string[] } = {
         Dairy: ["Milk", "Cheese", "Butter", "Yoghurt"],
         Vegetables: ["Cucumber", "Tomato", "Potato", "Carrot", "Spinach"],
-        Meat: ["Beef", "Pork", "Mutton"],
+        Meat: ["Beef", "Pork", "Mutton"]
     };
 
     useEffect(() => {
@@ -36,97 +39,140 @@ export default function HelpMeDecide() {
         if (!selectedCategories.includes(category)) {
             setSelectedCategories([...selectedCategories, category]);
         }
+        setCurrentCategory(category);
+        setMode("include");
     };
 
-    const handleIngredientChange = (ingredient: string, action: "include" | "exclude") => {
+    const toggleIngredient = (ingredient: string, action: "include" | "exclude") => {
+        const updater = action === "include" ? setIncludedIngredients : setExcludedIngredients;
+        const other = action === "include" ? excludedIngredients : includedIngredients;
+        updater((prev) => [...new Set([...prev, ingredient])]);
         if (action === "include") {
-            setExcludedIngredients((prev) => prev.filter((item) => item !== ingredient));
-            setIncludedIngredients((prev) => [...new Set([...prev, ingredient])]);
+            setExcludedIngredients(other.filter((i) => i !== ingredient));
         } else {
-            setIncludedIngredients((prev) => prev.filter((item) => item !== ingredient));
-            setExcludedIngredients((prev) => [...new Set([...prev, ingredient])]);
+            setIncludedIngredients(other.filter((i) => i !== ingredient));
         }
-        localStorage.setItem("includedIngredients", JSON.stringify([...includedIngredients.filter(i => i !== ingredient), ...(action === "include" ? [ingredient] : [])]));
-        localStorage.setItem("excludedIngredients", JSON.stringify([...excludedIngredients.filter(i => i !== ingredient), ...(action === "exclude" ? [ingredient] : [])]));
     };
 
+    const saveAndProceed = () => {
+        localStorage.setItem("includedIngredients", JSON.stringify(includedIngredients));
+        localStorage.setItem("excludedIngredients", JSON.stringify(excludedIngredients));
+        router.push("/confirmation");
+    };
+
+    if (!selectedOccasion) {
+        return (
+            <main className="p-6">
+                <div className="text-[#FFFFFF] text-lg font-bold mb-4 rounded-full bg-[#FDBA74] text-center px-4 py-3">
+                    What's the occasion?
+                </div>
+                <button
+                    className="flex items-center justify-between gap-2 w-full max-w-xs px-4 py-4 rounded-2xl bg-[#FCA5A5] text-black text-lg font-bold mb-4 transition-all hover:bg-[#EF4444]"
+                    onClick={() => router.push("/")}
+                >
+                    <span className="text-2xl">🏠</span>
+                    <span className="flex-1 text-center">Home</span>
+                    <span className="text-sm">🔍</span>
+                </button>
+                {["Breakfast", "Lunch", "Dinner", "Dessert"].map((o) => (
+                    <button
+                        key={o}
+                        className="w-full max-w-xs py-4 mb-4 rounded-2xl bg-[#8ECAE6] text-lg font-bold text-black transition-all hover:bg-[#219EBC]"
+                        onClick={() => handleOccasionSelect(o)}
+                    >
+                        {o}
+                    </button>
+                ))}
+            </main>
+        );
+    }
+
+    if (currentCategory && mode) {
+        const label = mode === "include" ? "Add ingredients to include" : "Add ingredients to exclude";
+        const ingredients = ingredientOptions[currentCategory];
+
+        return (
+            <main className="p-6">
+                <div className="text-[#FFFFFF] text-lg font-bold mb-4 rounded-full bg-[#FDBA74] text-center px-4 py-3">
+                    {label}
+                </div>
+
+                {ingredients.map((ing) => (
+                    <button
+                        key={ing}
+                        onClick={() => toggleIngredient(ing, mode)}
+                        className={`w-full max-w-xs py-4 mb-4 rounded-2xl text-lg font-bold transition-all ${
+                            mode === "include"
+                                ? includedIngredients.includes(ing)
+                                    ? "bg-green-600 text-white"
+                                    : "bg-[#B9FBC0] text-black hover:bg-green-400"
+                                : excludedIngredients.includes(ing)
+                                    ? "bg-red-600 text-white"
+                                    : "bg-[#FCA5A5] text-black hover:bg-red-400"
+                        }`}
+                    >
+                        {ing}
+                    </button>
+                ))}
+
+                <div className="flex flex-col gap-4 mt-6">
+                    {mode === "include" ? (
+                        <button
+                            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                            onClick={() => setMode("exclude")}
+                        >
+                            Next: Exclude ingredients
+                        </button>
+                    ) : (
+                        <button
+                            className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+                            onClick={() => {
+                                setMode(null);
+                                setCurrentCategory(null);
+                            }}
+                        >
+                            Back to preferences
+                        </button>
+                    )}
+                </div>
+            </main>
+        );
+    }
 
     return (
-        <div className="p-6">
-            {!selectedOccasion ? (
-                <>
-                    <h1 className="text-2xl font-bold mb-4">What is the occasion?</h1>
-                    <div className="grid grid-cols-2 gap-4">
-                        {["Breakfast", "Lunch", "Dinner", "Dessert"].map((occasion) => (
-                            <button
-                                key={occasion}
-                                onClick={() => handleOccasionSelect(occasion)}
-                                className={`p-4 text-white rounded-md ${selectedOccasion === occasion ? "bg-green-700" : "bg-green-500"}`}
-                            >
-                                {occasion}
-                            </button>
-                        ))}
-                    </div>
-                </>
-            ) : (
-                <>
-                    <h1 className="text-2xl font-bold mb-4">Pick your preferences.</h1>
-                    <div className="grid grid-cols-2 gap-4">
-                        {Object.keys(ingredientOptions).map((category) => (
-                            <button
-                                key={category}
-                                onClick={() => handleCategorySelect(category)}
-                                className={`p-4 text-white rounded-md ${selectedCategories.includes(category) ? "bg-green-700" : "bg-green-500"}`}
-                            >
-                                {category}
-                            </button>
-                        ))}
-                    </div>
+        <main className="p-6">
+            <div className="text-[#FFFFFF] text-lg font-bold mb-4 rounded-full bg-[#FDBA74] text-center px-4 py-3">
+                Choose your dietary restrictions:
+            </div>
 
-                    {selectedCategories.length > 0 && (
-                        <div className="mt-6">
-                            {selectedCategories.map((category) => (
-                                <div key={category} className="mb-4">
-                                    <h2 className="text-xl font-bold mb-2">{category}</h2>
-                                    <div className="grid grid-cols-2 gap-4">
-                                        {ingredientOptions[category].map((ingredient) => (
-                                            <div key={ingredient}
-                                                 className="p-4 bg-white rounded-md flex justify-between items-center border border-gray-300 shadow-sm">
-                                                <span className="text-black">{ingredient}</span>
-                                                <div className="flex gap-2">
-                                                    <button
-                                                        onClick={() => handleIngredientChange(ingredient, "include")}
-                                                        className={`p-2 rounded-md text-white ${includedIngredients.includes(ingredient) ? "bg-blue-700" : "bg-blue-500"}`}
-                                                    >
-                                                        +
-                                                    </button>
-                                                    <button
-                                                        onClick={() => handleIngredientChange(ingredient, "exclude")}
-                                                        className={`p-2 rounded-md text-white ${excludedIngredients.includes(ingredient) ? "bg-red-700" : "bg-red-500"}`}
-                                                    >
-                                                        -
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        ))}
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
-                    )}
+            {Object.keys(ingredientOptions).map((cat) => (
+                <button
+                    key={cat}
+                    onClick={() => handleCategorySelect(cat)}
+                    className="w-full max-w-xs py-4 mb-4 rounded-2xl bg-[#8ECAE6] text-lg font-bold text-black transition-all hover:bg-[#219EBC]"
+                >
+                    {cat}
+                </button>
+            ))}
 
-                    <div className="mt-6 flex justify-between">
-                        <button onClick={() => setSelectedOccasion(null)}
-                                className="bg-orange-500 text-white p-4 rounded-md">
-                            Go Back
-                        </button>
-                        <button onClick={() => router.push("/confirmation")}
-                                className="bg-green-500 text-white p-4 rounded-md">
-                            Next Step
-                        </button>
-                    </div>
-                </>
-            )}
-        </div>
+            <div className="flex flex-col gap-4 mt-6">
+                <button
+                    className="bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded"
+                    onClick={() => {
+                        setSelectedOccasion(null);
+                        setSelectedCategories([]);
+                        setCurrentCategory(null);
+                    }}
+                >
+                    Go back
+                </button>
+                <button
+                    className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+                    onClick={saveAndProceed}
+                >
+                    Confirm
+                </button>
+            </div>
+        </main>
     );
 }

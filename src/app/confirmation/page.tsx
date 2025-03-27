@@ -55,10 +55,10 @@ export default function ConfirmationPage() {
 
             <div className="mt-6 flex justify-between">
                 <button onClick={() => router.push("/help-me-decide")} className="bg-orange-500 text-white p-4 rounded-md">
-                    Go Back
+                    Go back
                 </button>
                 <button onClick={fetchFilteredRecipes} className="bg-green-500 text-white p-4 rounded-md">
-                    See Recipes
+                    See recipes
                 </button>
             </div>
 
