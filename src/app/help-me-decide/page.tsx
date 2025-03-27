@@ -64,7 +64,7 @@ export default function HelpMeDecide() {
         return (
             <main className="p-6">
                 <div className="text-[#FFFFFF] text-lg font-bold mb-4 rounded-full bg-[#FDBA74] text-center px-4 py-3">
-                    What's the occasion?
+                    What is the occasion?
                 </div>
                 <button
                     className="flex items-center justify-between gap-2 w-full max-w-xs px-4 py-4 rounded-2xl bg-[#FCA5A5] text-black text-lg font-bold mb-4 transition-all hover:bg-[#EF4444]"
