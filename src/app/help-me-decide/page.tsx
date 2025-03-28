@@ -17,7 +17,7 @@ export default function HelpMeDecide() {
     const ingredientOptions: { [key: string]: string[] } = {
         Dairy: ["Milk", "Cheese", "Butter", "Yoghurt"],
         Vegetables: ["Cucumber", "Tomato", "Potato", "Carrot", "Spinach"],
-        Meat: ["Beef", "Pork", "Mutton"]
+        Meat: ["Beef", "Pork", "Mutton"],
     };
 
     useEffect(() => {
@@ -44,14 +44,26 @@ export default function HelpMeDecide() {
     };
 
     const toggleIngredient = (ingredient: string, action: "include" | "exclude") => {
-        const updater = action === "include" ? setIncludedIngredients : setExcludedIngredients;
-        const other = action === "include" ? excludedIngredients : includedIngredients;
-        updater((prev) => [...new Set([...prev, ingredient])]);
         if (action === "include") {
-            setExcludedIngredients(other.filter((i) => i !== ingredient));
+            if (includedIngredients.includes(ingredient)) {
+                setIncludedIngredients(includedIngredients.filter((i) => i !== ingredient));
+            } else {
+                setIncludedIngredients([...includedIngredients, ingredient]);
+                setExcludedIngredients(excludedIngredients.filter((i) => i !== ingredient));
+            }
         } else {
-            setIncludedIngredients(other.filter((i) => i !== ingredient));
+            if (excludedIngredients.includes(ingredient)) {
+                setExcludedIngredients(excludedIngredients.filter((i) => i !== ingredient));
+            } else {
+                setExcludedIngredients([...excludedIngredients, ingredient]);
+                setIncludedIngredients(includedIngredients.filter((i) => i !== ingredient));
+            }
         }
+    };
+
+    const resetSelection = () => {
+        setIncludedIngredients([]);
+        setExcludedIngredients([]);
     };
 
     const saveAndProceed = () => {
@@ -62,18 +74,33 @@ export default function HelpMeDecide() {
 
     if (!selectedOccasion) {
         return (
-            <main className="p-6">
-                <div className="text-[#FFFFFF] text-lg font-bold mb-4 rounded-full bg-[#FDBA74] text-center px-4 py-3">
+            <main className="p-6 flex flex-col items-center text-center">
+                <div className="w-32 h-32 border border-black rounded-md mb-4 bg-gray-200 flex items-center justify-center">
+                    <span className="text-sm text-gray-600">Image</span>
+                </div>
+
+                <div className="text-[#FFFFFF] text-lg font-bold mb-4 rounded-full bg-[#FDBA74] text-center px-6 py-3">
                     What is the occasion?
                 </div>
+
                 <button
                     className="flex items-center justify-between gap-2 w-full max-w-xs px-4 py-4 rounded-2xl bg-[#FCA5A5] text-black text-lg font-bold mb-4 transition-all hover:bg-[#EF4444]"
                     onClick={() => router.push("/")}
                 >
                     <span className="text-2xl">🏠</span>
-                    <span className="flex-1 text-center">Home</span>
+                    <span className="flex-1 text-center">Return home</span>
                     <span className="text-sm">🔍</span>
                 </button>
+
+                <button
+                    className="flex items-center justify-between gap-2 w-full max-w-xs px-4 py-4 rounded-2xl bg-[#FCA5A5] text-black text-lg font-bold mb-6 transition-all hover:bg-[#EF4444]"
+                    onClick={() => router.push("/recipes")}
+                >
+                    <span className="text-2xl">⏩</span>
+                    <span className="flex-1 text-center">Skip to recipes</span>
+                    <span className="text-sm">🔍</span>
+                </button>
+
                 {["Breakfast", "Lunch", "Dinner", "Dessert"].map((o) => (
                     <button
                         key={o}
@@ -88,34 +115,50 @@ export default function HelpMeDecide() {
     }
 
     if (currentCategory && mode) {
-        const label = mode === "include" ? "Add ingredients to include" : "Add ingredients to exclude";
+        const label = mode === "include" ? "Select ingredients to include:" : "Select ingredients to exclude:";
         const ingredients = ingredientOptions[currentCategory];
 
         return (
-            <main className="p-6">
-                <div className="text-[#FFFFFF] text-lg font-bold mb-4 rounded-full bg-[#FDBA74] text-center px-4 py-3">
+            <main className="p-6 flex flex-col items-center text-center">
+                <div className="w-32 h-32 border border-black rounded-md mb-4 bg-gray-200 flex items-center justify-center">
+                    <span className="text-sm text-gray-600">Image</span>
+                </div>
+
+                <div className="text-[#FFFFFF] text-lg font-bold mb-4 rounded-full bg-[#FDBA74] text-center px-6 py-3">
                     {label}
                 </div>
 
-                {ingredients.map((ing) => (
-                    <button
-                        key={ing}
-                        onClick={() => toggleIngredient(ing, mode)}
-                        className={`w-full max-w-xs py-4 mb-4 rounded-2xl text-lg font-bold transition-all ${
-                            mode === "include"
-                                ? includedIngredients.includes(ing)
-                                    ? "bg-green-600 text-white"
-                                    : "bg-[#B9FBC0] text-black hover:bg-green-400"
-                                : excludedIngredients.includes(ing)
-                                    ? "bg-red-600 text-white"
-                                    : "bg-[#FCA5A5] text-black hover:bg-red-400"
-                        }`}
-                    >
-                        {ing}
-                    </button>
-                ))}
+                {ingredients.map((ing) => {
+                    const isSelected =
+                        mode === "include" ? includedIngredients.includes(ing) : excludedIngredients.includes(ing);
+
+                    return (
+                        <button
+                            key={ing}
+                            onClick={() => toggleIngredient(ing, mode)}
+                            className={`w-full max-w-xs py-4 mb-4 rounded-2xl text-lg font-bold transition-all ${
+                                isSelected
+                                    ? mode === "include"
+                                        ? "bg-green-600 text-white"
+                                        : "bg-red-600 text-white"
+                                    : mode === "include"
+                                        ? "bg-[#B9FBC0] text-black hover:bg-green-400"
+                                        : "bg-[#FCA5A5] text-black hover:bg-red-400"
+                            }`}
+                        >
+                            {ing}
+                        </button>
+                    );
+                })}
 
                 <div className="flex flex-col gap-4 mt-6">
+                    <button
+                        className="bg-gray-400 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded"
+                        onClick={resetSelection}
+                    >
+                        Reset selection
+                    </button>
+
                     {mode === "include" ? (
                         <button
                             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
@@ -140,9 +183,13 @@ export default function HelpMeDecide() {
     }
 
     return (
-        <main className="p-6">
-            <div className="text-[#FFFFFF] text-lg font-bold mb-4 rounded-full bg-[#FDBA74] text-center px-4 py-3">
-                Choose your dietary restrictions:
+        <main className="p-6 flex flex-col items-center text-center">
+            <div className="w-32 h-32 border border-black rounded-md mb-4 bg-gray-200 flex items-center justify-center">
+                <span className="text-sm text-gray-600">Image</span>
+            </div>
+
+            <div className="text-[#FFFFFF] text-lg font-bold mb-4 rounded-full bg-[#FDBA74] text-center px-6 py-3">
+                Choose your dietary restrictions
             </div>
 
             {Object.keys(ingredientOptions).map((cat) => (
