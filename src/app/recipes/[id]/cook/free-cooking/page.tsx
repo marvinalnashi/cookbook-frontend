@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import axios from "axios";
+import confetti, {Shape} from "canvas-confetti";
 
 const API_URL = process.env.NEXT_PUBLIC_BACKEND_URL || "https://little-chefs-cookbook-production.up.railway.app";
 
@@ -40,6 +41,41 @@ export default function FreeCookingPage() {
             });
     }, [id]);
 
+    function launchMagicSparkles() {
+        const defaults = {
+            spread: 360,
+            ticks: 100,
+            gravity: 0,
+            decay: 0.92,
+            startVelocity: 30,
+            colors: ['#FFE400', '#FFBD00', '#E89400', '#FFCA6C', '#FDFFB8'],
+            origin: { y: 0.5 }
+        };
+
+        const starShape = ['star'] as Shape[];
+        const circleShape = ['circle'] as Shape[];
+
+        function shoot() {
+            confetti({
+                ...defaults,
+                particleCount: 40,
+                scalar: 1.2,
+                shapes: starShape,
+            });
+
+            confetti({
+                ...defaults,
+                particleCount: 20,
+                scalar: 0.8,
+                shapes: circleShape,
+            });
+        }
+
+        shoot();
+        setTimeout(shoot, 200);
+        setTimeout(shoot, 400);
+    }
+
     if (error) return <p className="p-6 text-red-500">{error}</p>;
     if (!recipe) return <p className="p-6">Loading recipe...</p>;
 
@@ -68,7 +104,10 @@ export default function FreeCookingPage() {
 
             <button
                 className="flex items-center justify-between gap-2 w-full max-w-xs px-4 py-4 rounded-2xl bg-[#1E88E5] text-white text-lg font-bold mt-4 transition-all hover:bg-[#1565C0]"
-                onClick={() => router.push("/")}
+                onClick={() => {
+                    launchMagicSparkles();
+                    setTimeout(() => router.push("/"), 1500);
+                }}
             >
                 <span className="flex-1 text-center">Finish</span>
             </button>

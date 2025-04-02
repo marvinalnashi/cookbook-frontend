@@ -3,6 +3,7 @@
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import confetti, {Shape} from "canvas-confetti";
 
 const API_URL = "https://little-chefs-cookbook-production.up.railway.app";
 
@@ -33,12 +34,8 @@ export default function GuidedCookingPage() {
         fetchRecipe();
     }, [id]);
 
-    if (!recipe) {
-        return <div className="p-6">Loading...</div>;
-    }
-
     const handleNext = () => {
-        if (currentStep < recipe.steps.length - 1) {
+        if (currentStep < (recipe?.steps.length || 0) - 1) {
             setCurrentStep((prev) => prev + 1);
         }
     };
@@ -48,6 +45,45 @@ export default function GuidedCookingPage() {
             setCurrentStep((prev) => prev - 1);
         }
     };
+
+    function launchMagicSparkles() {
+        const defaults = {
+            spread: 360,
+            ticks: 100,
+            gravity: 0,
+            decay: 0.92,
+            startVelocity: 30,
+            colors: ['#FFE400', '#FFBD00', '#E89400', '#FFCA6C', '#FDFFB8'],
+            origin: { y: 0.5 }
+        };
+
+        const starShape = ['star'] as Shape[];
+        const circleShape = ['circle'] as Shape[];
+
+        function shoot() {
+            confetti({
+                ...defaults,
+                particleCount: 40,
+                scalar: 1.2,
+                shapes: starShape,
+            });
+
+            confetti({
+                ...defaults,
+                particleCount: 20,
+                scalar: 0.8,
+                shapes: circleShape,
+            });
+        }
+
+        shoot();
+        setTimeout(shoot, 200);
+        setTimeout(shoot, 400);
+    }
+
+    if (!recipe) {
+        return <div className="p-6">Loading...</div>;
+    }
 
     const isEven = currentStep % 2 === 0;
 
@@ -89,9 +125,9 @@ export default function GuidedCookingPage() {
                 <span className="text-black">[Image]</span>
             </div>
 
-            <div className="relative w-full max-w-md mt-4">
+            <div key={currentStep} className="relative w-full max-w-md mt-4">
                 <div
-                    className={`bg-[#8EC5FF] text-white text-center font-bold text-lg px-6 py-6 rounded-full shadow-md w-full relative`}
+                    className={`bg-[#8EC5FF] text-white text-center font-bold text-lg px-6 py-6 rounded-full shadow-md w-full relative bubble-pop`}
                 >
                     <p>
                         <span className="block text-sm mb-2">STEP {currentStep + 1}:</span>
@@ -99,29 +135,31 @@ export default function GuidedCookingPage() {
                     </p>
 
                     <svg
-                        className={`absolute w-10 h-10 ${
-                            isEven ? "-top-3 left-6" : "-top-3 right-6 rotate-y-180"
-                        }`}
+                        className={`absolute w-12 h-12 ${isEven ? "-top-5 left-4" : "-top-5 right-4"}`}
                         viewBox="0 0 40 40"
                         fill="none"
                         xmlns="http://www.w3.org/2000/svg"
-                        style={{transform: isEven ? "rotate(0deg)" : "scaleX(-1)"}}
+                        style={{transform: isEven ? "scaleX(1)" : "scaleX(-1)"}}
                     >
-                        <path
-                            d="M0,40 C10,10 30,10 40,0"
-                            fill="#8EC5FF"
-                        />
+                        <path d="M0,40 C10,10 30,10 40,0" fill="#8EC5FF"/>
                     </svg>
                 </div>
             </div>
 
-            <button
-                className="flex items-center justify-between gap-2 w-full max-w-xs px-4 py-4 rounded-2xl bg-[#1E88E5] text-white text-lg font-bold mt-4 transition-all hover:bg-[#1565C0]"
-                onClick={() => router.push("/")}
-                hidden={currentStep !== recipe.steps.length - 1}
-            >
-                <span className="flex-1 text-center">Finish</span>
-            </button>
+
+            {currentStep === recipe.steps.length - 1 && (
+                <button
+                    className="flex items-center justify-between gap-2 w-full max-w-xs px-4 py-4 rounded-2xl bg-[#1E88E5] text-white text-lg font-bold mt-4 transition-all hover:bg-[#1565C0]"
+                    onClick={() => {
+                        launchMagicSparkles();
+                        setTimeout(() => router.push("/"), 1500);
+                    }}
+                    hidden={currentStep !== recipe.steps.length - 1}
+                >
+                    <span className="flex-1 text-center">Finish</span>
+                </button>
+
+            )}
         </main>
     );
 }
