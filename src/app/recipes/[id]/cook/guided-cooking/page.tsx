@@ -120,15 +120,19 @@ export default function GuidedCookingPage() {
                 </div>
             </div>
 
-            <div className={`absolute ${isEven ? "left-6" : "right-6"} -top-4 w-28`}>
-                <img
-                    src={`/ratwizard${isEven ? "1" : "2"}.png`}
-                    alt="Rat Wizard Mascotte"
-                    className="w-full h-auto"
-                />
-            </div>
+            <div key={currentStep} className="relative w-full max-w-md mt-30">
+                <div
+                    className={`absolute -top-40 z-10 w-40 ${
+                        isEven ? "left-0" : "right-0"
+                    } transition-all duration-500`}
+                >
+                    <img
+                        src={`/ratwizard${isEven ? "1" : "2"}.png`}
+                        alt="Rat Wizard Mascotte"
+                        className="w-full h-auto"
+                    />
+                </div>
 
-            <div key={currentStep} className="relative w-full max-w-md mt-24">
                 <div className="bg-[#8EC5FF] text-white text-center font-bold text-lg px-6 py-6 rounded-full shadow-md w-full relative bubble-pop">
                     <p>
                         <span className="block text-sm mb-2">STEP {currentStep + 1}:</span>
