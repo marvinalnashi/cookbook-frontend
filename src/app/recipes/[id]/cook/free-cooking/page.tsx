@@ -65,6 +65,13 @@ export default function FreeCookingPage() {
             <button onClick={() => router.back()} className="mt-6 bg-gray-500 text-white p-4 rounded-md">
                 Back
             </button>
+
+            <button
+                className="flex items-center justify-between gap-2 w-full max-w-xs px-4 py-4 rounded-2xl bg-[#1E88E5] text-white text-lg font-bold mt-4 transition-all hover:bg-[#1565C0]"
+                onClick={() => router.push("/")}
+            >
+                <span className="flex-1 text-center">Finish</span>
+            </button>
         </div>
     );
 }

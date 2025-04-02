@@ -49,8 +49,11 @@ export default function GuidedCookingPage() {
         }
     };
 
+    const isEven = currentStep % 2 === 0;
+
     return (
-        <main className="flex flex-col items-center justify-start w-full h-screen bg-[#FCFAF8] px-4 py-6 overflow-y-auto">
+        <main
+            className="flex flex-col items-center justify-start w-full h-screen bg-[#FCFAF8] px-4 py-6 overflow-y-auto">
             <div className="flex flex-col items-center mb-6 w-full max-w-md">
                 <h1 className="text-2xl font-bold text-center mb-2">{recipe.title}</h1>
                 <p className="text-center text-md text-gray-800 mb-2">{recipe.description}</p>
@@ -86,12 +89,39 @@ export default function GuidedCookingPage() {
                 <span className="text-black">[Image]</span>
             </div>
 
-            <div className="bg-[#7CFC00] text-black text-center font-bold text-lg px-6 py-6 rounded-full shadow-md max-w-md w-full">
-                <p>
-                    <span className="block text-sm mb-2">STEP {currentStep + 1}:</span>
-                    {recipe.steps[currentStep]}
-                </p>
+            <div className="relative w-full max-w-md mt-4">
+                <div
+                    className={`bg-[#8EC5FF] text-white text-center font-bold text-lg px-6 py-6 rounded-full shadow-md w-full relative`}
+                >
+                    <p>
+                        <span className="block text-sm mb-2">STEP {currentStep + 1}:</span>
+                        {recipe.steps[currentStep]}
+                    </p>
+
+                    <svg
+                        className={`absolute w-10 h-10 ${
+                            isEven ? "-top-3 left-6" : "-top-3 right-6 rotate-y-180"
+                        }`}
+                        viewBox="0 0 40 40"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                        style={{transform: isEven ? "rotate(0deg)" : "scaleX(-1)"}}
+                    >
+                        <path
+                            d="M0,40 C10,10 30,10 40,0"
+                            fill="#8EC5FF"
+                        />
+                    </svg>
+                </div>
             </div>
+
+            <button
+                className="flex items-center justify-between gap-2 w-full max-w-xs px-4 py-4 rounded-2xl bg-[#1E88E5] text-white text-lg font-bold mt-4 transition-all hover:bg-[#1565C0]"
+                onClick={() => router.push("/")}
+                hidden={currentStep !== recipe.steps.length - 1}
+            >
+                <span className="flex-1 text-center">Finish</span>
+            </button>
         </main>
     );
 }
