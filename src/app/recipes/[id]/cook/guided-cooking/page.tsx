@@ -3,7 +3,7 @@
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import confetti, {Shape} from "canvas-confetti";
+import confetti, { Shape } from "canvas-confetti";
 
 const API_URL = "https://little-chefs-cookbook-production.up.railway.app";
 
@@ -88,8 +88,7 @@ export default function GuidedCookingPage() {
     const isEven = currentStep % 2 === 0;
 
     return (
-        <main
-            className="flex flex-col items-center justify-start w-full h-screen bg-[#FCFAF8] px-4 py-6 overflow-y-auto">
+        <main className="flex flex-col items-center justify-start w-full h-screen bg-[#FCFAF8] px-4 py-6 overflow-y-auto">
             <div className="flex flex-col items-center mb-6 w-full max-w-md">
                 <h1 className="text-2xl font-bold text-center mb-2">{recipe.title}</h1>
                 <p className="text-center text-md text-gray-800 mb-2">{recipe.description}</p>
@@ -121,14 +120,16 @@ export default function GuidedCookingPage() {
                 </div>
             </div>
 
-            <div className="w-40 h-40 bg-blue-300 rounded-lg border border-black flex items-center justify-center mb-4">
-                <span className="text-black">[Image]</span>
+            <div className={`absolute ${isEven ? "left-6" : "right-6"} -top-4 w-28`}>
+                <img
+                    src={`/ratwizard${isEven ? "1" : "2"}.png`}
+                    alt="Rat Wizard Mascotte"
+                    className="w-full h-auto"
+                />
             </div>
 
-            <div key={currentStep} className="relative w-full max-w-md mt-4">
-                <div
-                    className={`bg-[#8EC5FF] text-white text-center font-bold text-lg px-6 py-6 rounded-full shadow-md w-full relative bubble-pop`}
-                >
+            <div key={currentStep} className="relative w-full max-w-md mt-24">
+                <div className="bg-[#8EC5FF] text-white text-center font-bold text-lg px-6 py-6 rounded-full shadow-md w-full relative bubble-pop">
                     <p>
                         <span className="block text-sm mb-2">STEP {currentStep + 1}:</span>
                         {recipe.steps[currentStep]}
@@ -139,13 +140,12 @@ export default function GuidedCookingPage() {
                         viewBox="0 0 40 40"
                         fill="none"
                         xmlns="http://www.w3.org/2000/svg"
-                        style={{transform: isEven ? "scaleX(1)" : "scaleX(-1)"}}
+                        style={{ transform: isEven ? "scaleX(1)" : "scaleX(-1)" }}
                     >
-                        <path d="M0,40 C10,10 30,10 40,0" fill="#8EC5FF"/>
+                        <path d="M0,40 C10,10 30,10 40,0" fill="#8EC5FF" />
                     </svg>
                 </div>
             </div>
-
 
             {currentStep === recipe.steps.length - 1 && (
                 <button
