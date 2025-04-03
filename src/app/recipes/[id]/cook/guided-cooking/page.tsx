@@ -123,7 +123,7 @@ export default function GuidedCookingPage() {
             </div>
 
             <div key={currentStep} className="relative w-full max-w-md mt-30">
-                {!isLastStep && (
+                {!isFinishing && (
                     <div
                         className={`absolute -top-40 z-10 w-40 transition-all duration-500 ${
                             isEven ? "left-0" : "right-0"
@@ -131,17 +131,17 @@ export default function GuidedCookingPage() {
                     >
                         <img
                             src={`/ratwizard${isEven ? "1" : "2"}.png`}
-                            alt="Rat Wizard Mascotte"
+                            alt="Rat wizard mascotte"
                             className="w-full h-auto"
                         />
                     </div>
                 )}
 
                 {isFinishing && (
-                    <div className="absolute -top-40 z-10 w-44 left-1/2 transform -translate-x-1/2">
+                    <div className="absolute -top-40 z-20 w-44 left-1/2 transform -translate-x-1/2 transition-all duration-500">
                         <img
                             src="/ratwizard3.png"
-                            alt="Rat Wizard Celebrating"
+                            alt="Rat wizard casting"
                             className="w-full h-auto"
                         />
                     </div>
