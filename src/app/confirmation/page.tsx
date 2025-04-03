@@ -46,19 +46,32 @@ export default function ConfirmationPage() {
 
     return (
         <div className="p-6">
+            <div className="w-32 h-32 rounded-md mb-4 flex items-center justify-center">
+                <img
+                    src={"/ratwizard1.png"}
+                    alt="Rat Wizard"
+                    className="w-full h-auto"
+                />
+            </div>
             <h1 className="text-2xl font-bold mb-4">Your Selection</h1>
             <ul className="mb-4">
                 <li><strong>Occasion:</strong> {selectedOccasion}</li>
-                <li><strong>Included Ingredients:</strong> {includedIngredients.length > 0 ? includedIngredients.join(", ") : "None"}</li>
-                <li><strong>Excluded Ingredients:</strong> {excludedIngredients.length > 0 ? excludedIngredients.join(", ") : "None"}</li>
+                <li><strong>Included
+                    Ingredients:</strong> {includedIngredients.length > 0 ? includedIngredients.join(", ") : "None"}
+                </li>
+                <li><strong>Excluded
+                    Ingredients:</strong> {excludedIngredients.length > 0 ? excludedIngredients.join(", ") : "None"}
+                </li>
             </ul>
 
             <div className="mt-6 flex justify-between">
-                <button onClick={() => router.push("/help-me-decide")} className="bg-orange-500 text-white p-4 rounded-md">
-                    Go back
+                <button onClick={() => router.push("/help-me-decide")}
+                        className="bg-[#1E88E5] hover:bg-[#1565C0] text-white p-4 mr-3 rounded-md">
+                    Back
                 </button>
-                <button onClick={fetchFilteredRecipes} className="bg-green-500 text-white p-4 rounded-md">
-                    See recipes
+                <button onClick={fetchFilteredRecipes}
+                        className="bg-[#1E88E5] hover:bg-[#1565C0] text-white p-4 ml-3 rounded-md">
+                    Recipes
                 </button>
             </div>
 

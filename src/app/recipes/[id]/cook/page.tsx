@@ -8,6 +8,13 @@ export default function CookingModePage() {
 
     return (
         <div className="p-6">
+            <div className="w-32 h-32 object-center rounded-md mb-4 flex items-center justify-center">
+                <img
+                    src={"/ratwizard5.png"}
+                    alt="Rat Wizard"
+                    className="w-full h-auto"
+                />
+            </div>
             <h1 className="text-2xl font-bold mb-4">How do you want to cook?</h1>
             <div className="flex flex-col gap-4">
                 <button

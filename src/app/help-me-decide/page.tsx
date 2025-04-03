@@ -75,9 +75,12 @@ export default function HelpMeDecide() {
     if (!selectedOccasion) {
         return (
             <main className="p-6 flex flex-col items-center text-center">
-                <div
-                    className="w-32 h-32 border border-black rounded-md mb-4 bg-gray-200 flex items-center justify-center">
-                    <span className="text-sm text-gray-600">Image</span>
+                <div className="w-32 h-32 rounded-md mb-4 flex items-center justify-center">
+                    <img
+                        src={"/ratwizard5.png"}
+                        alt="Rat Wizard"
+                        className="w-full h-auto"
+                    />
                 </div>
 
                 <div className="text-[#FFFFFF] text-lg font-bold mb-4 rounded-full bg-[#FDBA74] text-center px-6 py-3">
@@ -126,9 +129,12 @@ export default function HelpMeDecide() {
 
         return (
             <main className="p-6 flex flex-col items-center text-center">
-                <div
-                    className="w-32 h-32 border border-black rounded-md mb-4 bg-gray-200 flex items-center justify-center">
-                    <span className="text-sm text-gray-600">Image</span>
+                <div className="w-32 h-32 rounded-md mb-4 flex items-center justify-center">
+                    <img
+                        src={"/ratwizard6.png"}
+                        alt="Rat Wizard"
+                        className="w-full h-auto"
+                    />
                 </div>
 
                 <div className="text-[#FFFFFF] text-lg font-bold mb-4 rounded-full bg-[#FDBA74] text-center px-6 py-3">
@@ -191,8 +197,12 @@ export default function HelpMeDecide() {
 
     return (
         <main className="p-6 flex flex-col items-center text-center">
-            <div className="w-32 h-32 border border-black rounded-md mb-4 bg-gray-200 flex items-center justify-center">
-                <span className="text-sm text-gray-600">Image</span>
+            <div className="w-32 h-32 rounded-md mb-4 flex items-center justify-center">
+                <img
+                    src={"/ratwizard6.png"}
+                    alt="Rat Wizard"
+                    className="w-full h-auto"
+                />
             </div>
 
             <div className="text-[#FFFFFF] text-lg font-bold mb-4 rounded-full bg-[#FDBA74] text-center px-6 py-3">
