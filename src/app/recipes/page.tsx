@@ -43,7 +43,8 @@ export default function RecipesPage() {
     if (recipes.length === 0) return <p className="p-6">Loading recipes...</p>;
 
     return (
-        <main className="flex flex-col items-center justify-start w-full h-screen bg-[#FCFAF8] px-4 py-6 overflow-y-auto">
+        <main
+            className="flex flex-col items-center justify-start w-full h-screen bg-[#FCFAF8] px-4 py-6 overflow-y-auto">
             <div className="w-32 h-32 border border-black rounded-md mb-4 bg-gray-200 flex items-center justify-center">
                 <span className="text-sm text-gray-600">Image</span>
             </div>
@@ -54,7 +55,12 @@ export default function RecipesPage() {
 
             <button
                 className="flex items-center justify-between gap-2 w-full max-w-xs px-4 py-4 rounded-2xl bg-[#FCA5A5] text-black text-lg font-bold mb-4 transition-all hover:bg-[#EF4444]"
-                onClick={() => router.push("/")}
+                onClick={() => {
+                    localStorage.removeItem("includedIngredients");
+                    localStorage.removeItem("excludedIngredients");
+                    localStorage.removeItem("selectedOccasion");
+                    router.push("/");
+                }}
             >
                 <span className="text-2xl">🏠</span>
                 <span className="flex-1 text-center">Home</span>
