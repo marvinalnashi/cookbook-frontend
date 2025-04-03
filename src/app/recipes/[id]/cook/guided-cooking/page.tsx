@@ -36,7 +36,7 @@ export default function GuidedCookingPage() {
     }, [id]);
 
     const handleNext = () => {
-        if (currentStep < (recipe?.steps.length || 0) - 1) {
+        if (recipe && currentStep < recipe.steps.length - 1) {
             setCurrentStep((prev) => prev + 1);
         }
     };
@@ -54,27 +54,16 @@ export default function GuidedCookingPage() {
             gravity: 0,
             decay: 0.92,
             startVelocity: 30,
-            colors: ['#FFE400', '#FFBD00', '#E89400', '#FFCA6C', '#FDFFB8'],
-            origin: { y: 0.5 }
+            colors: ["#FFE400", "#FFBD00", "#E89400", "#FFCA6C", "#FDFFB8"],
+            origin: { y: 0.5 },
         };
 
-        const starShape = ['star'] as Shape[];
-        const circleShape = ['circle'] as Shape[];
+        const starShape = ["star"] as Shape[];
+        const circleShape = ["circle"] as Shape[];
 
         function shoot() {
-            confetti({
-                ...defaults,
-                particleCount: 40,
-                scalar: 1.2,
-                shapes: starShape,
-            });
-
-            confetti({
-                ...defaults,
-                particleCount: 20,
-                scalar: 0.8,
-                shapes: circleShape,
-            });
+            confetti({ ...defaults, particleCount: 40, scalar: 1.2, shapes: starShape });
+            confetti({ ...defaults, particleCount: 20, scalar: 0.8, shapes: circleShape });
         }
 
         shoot();
@@ -82,11 +71,10 @@ export default function GuidedCookingPage() {
         setTimeout(shoot, 400);
     }
 
-    if (!recipe) {
-        return <div className="p-6">Loading...</div>;
-    }
+    if (!recipe) return <div className="p-6">Loading...</div>;
 
     const isEven = currentStep % 2 === 0;
+    const isFirstStep = currentStep === 0;
     const isLastStep = currentStep === recipe.steps.length - 1;
 
     return (
@@ -99,26 +87,48 @@ export default function GuidedCookingPage() {
                 </p>
 
                 <div className="flex justify-between w-full gap-4 mb-4">
-                    <button
-                        className="flex-1 bg-[#FCA5A5] hover:bg-[#EF4444] text-white px-4 py-3 rounded-xl font-bold !text-xs"
-                        onClick={() => router.push(`/recipes/${id}/cook`)}
-                    >
-                        Back
-                    </button>
-                    <button
-                        className="flex-1 bg-[#FCD34D] hover:bg-[#FBBF24] text-white px-4 py-3 rounded-xl font-bold !text-xs"
-                        onClick={handlePrev}
-                        disabled={currentStep === 0}
-                    >
-                        Previous Step
-                    </button>
-                    <button
-                        className="flex-1 bg-[#34D399] hover:bg-[#10B981] text-white px-4 py-3 rounded-xl font-bold !text-xs"
-                        onClick={handleNext}
-                        disabled={isLastStep}
-                    >
-                        Next Step
-                    </button>
+                    {isFirstStep && (
+                        <>
+                            <button
+                                className="flex-1 bg-[#FCA5A5] hover:bg-[#EF4444] text-white px-4 py-3 rounded-xl font-bold !text-xs"
+                                onClick={() => router.push(`/recipes/${id}/cook`)}
+                            >
+                                Back
+                            </button>
+                            <button
+                                className="flex-1 bg-[#34D399] hover:bg-[#10B981] text-white px-4 py-3 rounded-xl font-bold !text-xs"
+                                onClick={handleNext}
+                            >
+                                Next Step
+                            </button>
+                        </>
+                    )}
+
+                    {!isFirstStep && !isLastStep && (
+                        <>
+                            <button
+                                className="flex-1 bg-[#FCD34D] hover:bg-[#FBBF24] text-white px-4 py-3 rounded-xl font-bold !text-xs"
+                                onClick={handlePrev}
+                            >
+                                Previous Step
+                            </button>
+                            <button
+                                className="flex-1 bg-[#34D399] hover:bg-[#10B981] text-white px-4 py-3 rounded-xl font-bold !text-xs"
+                                onClick={handleNext}
+                            >
+                                Next Step
+                            </button>
+                        </>
+                    )}
+
+                    {isLastStep && (
+                        <button
+                            className="flex-1 bg-[#FCD34D] hover:bg-[#FBBF24] text-white px-4 py-3 rounded-xl font-bold !text-xs"
+                            onClick={handlePrev}
+                        >
+                            Previous Step
+                        </button>
+                    )}
                 </div>
             </div>
 
