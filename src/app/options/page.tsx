@@ -29,7 +29,7 @@ export default function OptionsPage() {
             <h1 className="text-2xl font-bold mb-4">Options</h1>
 
             <button
-                className="bg-[#FFB703] hover:bg-orange-500 text-black font-bold py-2 px-4 rounded"
+                className="bg-[#FFB703] hover:bg-orange-500 text-black dark:text-white font-bold py-2 px-4 rounded"
                 onClick={() => router.push("/")}
             >
                 🏠 Home

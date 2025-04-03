@@ -28,12 +28,12 @@ export default function Home() {
                 />
             </div>
 
-            <div className="bg-[#FDBA74] text-center text-black font-bold text-lg px-6 py-3 rounded-full shadow mb-6">
+            <div className="bg-[#FDBA74] text-center text-black dark:text-white font-bold text-lg px-6 py-3 rounded-full shadow mb-6">
                 What would you like to do?
             </div>
 
             <button
-                className="flex items-center justify-between gap-2 w-full max-w-xs px-4 py-4 rounded-2xl bg-[#8ECAE6] text-black text-lg font-bold mb-4 transition-all hover:bg-[#219EBC]"
+                className="flex items-center justify-between gap-2 w-full max-w-xs px-4 py-4 rounded-2xl bg-[#8ECAE6] text-black dark:text-white text-lg font-bold mb-4 transition-all hover:bg-[#219EBC]"
                 onClick={() => router.push("/help-me-decide")}
             >
                 <span className="text-2xl">⭐</span>
@@ -42,7 +42,7 @@ export default function Home() {
             </button>
 
             <button
-                className="flex items-center justify-between gap-2 w-full max-w-xs px-4 py-4 rounded-2xl bg-[#8ECAE6] text-black text-lg font-bold mb-4 transition-all hover:bg-[#126782]"
+                className="flex items-center justify-between gap-2 w-full max-w-xs px-4 py-4 rounded-2xl bg-[#8ECAE6] text-black dark:text-white text-lg font-bold mb-4 transition-all hover:bg-[#126782]"
                 onClick={() => router.push("/recipes")}
             >
                 <span className="text-2xl">📋</span>
@@ -51,7 +51,7 @@ export default function Home() {
             </button>
 
             <button
-                className="flex items-center justify-between gap-2 w-full max-w-xs px-4 py-4 rounded-2xl bg-[#8ECAE6] text-black text-lg font-bold mb-6 transition-all hover:bg-[#219EBC]"
+                className="flex items-center justify-between gap-2 w-full max-w-xs px-4 py-4 rounded-2xl bg-[#8ECAE6] text-black dark:text-white text-lg font-bold mb-6 transition-all hover:bg-[#219EBC]"
                 onClick={() => router.push("/options")}
             >
                 <span className="text-2xl">🎚️</span>
@@ -59,7 +59,7 @@ export default function Home() {
                 <span className="text-sm">🔍</span>
             </button>
 
-            <div className="text-sm text-center mb-2">
+            <div className="text-sm text-center mb-2 dark:text-white">
                 <p>Backend response: {pong}</p>
             </div>
 

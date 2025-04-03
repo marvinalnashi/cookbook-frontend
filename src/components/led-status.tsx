@@ -36,7 +36,7 @@ export default function LEDStatus() {
 
     return (
         <div className="p-4">
-            <h2 className="text-xl font-semibold">LED Status</h2>
+            <h2 className="text-xl !dark:text-white font-semibold">LED Status</h2>
             <p><strong>LEDs On:</strong> {ledState.power === "on" ? "Yes" : "No"}</p>
             <p><strong>Current Color:</strong> {ledState.power === "on" ? `#${ledState.color}` : "N/A"}</p>
         </div>
