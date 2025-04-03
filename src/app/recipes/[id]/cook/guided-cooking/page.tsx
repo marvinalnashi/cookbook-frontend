@@ -20,6 +20,7 @@ export default function GuidedCookingPage() {
     const router = useRouter();
     const [recipe, setRecipe] = useState<Recipe | null>(null);
     const [currentStep, setCurrentStep] = useState<number>(0);
+    const [isFinishing, setIsFinishing] = useState<boolean>(false);
 
     useEffect(() => {
         async function fetchRecipe() {
@@ -86,6 +87,7 @@ export default function GuidedCookingPage() {
     }
 
     const isEven = currentStep % 2 === 0;
+    const isLastStep = currentStep === recipe.steps.length - 1;
 
     return (
         <main className="flex flex-col items-center justify-start w-full h-screen bg-[#FCFAF8] px-4 py-6 overflow-y-auto">
@@ -113,7 +115,7 @@ export default function GuidedCookingPage() {
                     <button
                         className="flex-1 bg-[#34D399] hover:bg-[#10B981] text-white px-4 py-3 rounded-xl font-bold !text-xs"
                         onClick={handleNext}
-                        disabled={currentStep === recipe.steps.length - 1}
+                        disabled={isLastStep}
                     >
                         Next Step
                     </button>
@@ -121,17 +123,29 @@ export default function GuidedCookingPage() {
             </div>
 
             <div key={currentStep} className="relative w-full max-w-md mt-30">
-                <div
-                    className={`absolute -top-40 z-10 w-40 ${
-                        isEven ? "left-0" : "right-0"
-                    } transition-all duration-500`}
-                >
-                    <img
-                        src={`/ratwizard${isEven ? "1" : "2"}.png`}
-                        alt="Rat Wizard Mascotte"
-                        className="w-full h-auto"
-                    />
-                </div>
+                {!isLastStep && (
+                    <div
+                        className={`absolute -top-40 z-10 w-40 transition-all duration-500 ${
+                            isEven ? "left-0" : "right-0"
+                        }`}
+                    >
+                        <img
+                            src={`/ratwizard${isEven ? "1" : "2"}.png`}
+                            alt="Rat Wizard Mascotte"
+                            className="w-full h-auto"
+                        />
+                    </div>
+                )}
+
+                {isFinishing && (
+                    <div className="absolute -top-40 z-10 w-44 left-1/2 transform -translate-x-1/2">
+                        <img
+                            src="/ratwizard3.png"
+                            alt="Rat Wizard Celebrating"
+                            className="w-full h-auto"
+                        />
+                    </div>
+                )}
 
                 <div className="bg-[#8EC5FF] text-white text-center font-bold text-lg px-6 py-6 rounded-full shadow-md w-full relative bubble-pop">
                     <p>
@@ -151,18 +165,17 @@ export default function GuidedCookingPage() {
                 </div>
             </div>
 
-            {currentStep === recipe.steps.length - 1 && (
+            {isLastStep && (
                 <button
                     className="flex items-center justify-between gap-2 w-full max-w-xs px-4 py-4 rounded-2xl bg-[#1E88E5] text-white text-lg font-bold mt-4 transition-all hover:bg-[#1565C0]"
                     onClick={() => {
+                        setIsFinishing(true);
                         launchMagicSparkles();
                         setTimeout(() => router.push("/"), 1500);
                     }}
-                    hidden={currentStep !== recipe.steps.length - 1}
                 >
                     <span className="flex-1 text-center">Finish</span>
                 </button>
-
             )}
         </main>
     );
