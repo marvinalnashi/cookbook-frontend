@@ -206,7 +206,7 @@ export default function HelpMeDecide() {
             </div>
 
             <div className="text-[#FFFFFF] text-lg font-bold mb-4 rounded-full bg-[#FDBA74] text-center px-6 py-3">
-                Choose your dietary restrictions
+                Choose your dietary preferences
             </div>
 
             {Object.keys(ingredientOptions).map((cat) => (

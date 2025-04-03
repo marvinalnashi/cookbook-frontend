@@ -18,6 +18,7 @@ export default function ConfirmationPage() {
     const [includedIngredients, setIncludedIngredients] = useState<string[]>([]);
     const [excludedIngredients, setExcludedIngredients] = useState<string[]>([]);
     const [filteredRecipes] = useState<Recipe[]>([]);
+    const [matchMode, setMatchMode] = useState<"partial" | "strict">("partial");
 
     useEffect(() => {
         setSelectedOccasion(localStorage.getItem("selectedOccasion") || "");
@@ -30,7 +31,8 @@ export default function ConfirmationPage() {
             const payload = {
                 occasion: selectedOccasion || "",
                 include: includedIngredients || [],
-                exclude: excludedIngredients || []
+                exclude: excludedIngredients || [],
+                matchMode
             };
 
             const response = await axios.post<Recipe[]>(`${API_URL}/recipes/filter`, payload, {
@@ -69,6 +71,21 @@ export default function ConfirmationPage() {
                         className="bg-[#1E88E5] hover:bg-[#1565C0] text-white p-4 mr-3 rounded-md">
                     Back
                 </button>
+                <div className="mb-4 flex gap-4">
+                    <button
+                        className={`flex-1 p-2 rounded ${matchMode === "partial" ? "bg-blue-500 text-white" : "bg-gray-200 text-black"}`}
+                        onClick={() => setMatchMode("partial")}
+                    >
+                        Match any ingredient
+                    </button>
+                    <button
+                        className={`flex-1 p-2 rounded ${matchMode === "strict" ? "bg-blue-500 text-white" : "bg-gray-200 text-black"}`}
+                        onClick={() => setMatchMode("strict")}
+                    >
+                        Match all ingredients
+                    </button>
+                </div>
+
                 <button onClick={fetchFilteredRecipes}
                         className="bg-[#1E88E5] hover:bg-[#1565C0] text-white p-4 ml-3 rounded-md">
                     Recipes
