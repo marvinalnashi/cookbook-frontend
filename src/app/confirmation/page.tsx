@@ -32,7 +32,7 @@ export default function ConfirmationPage() {
                 occasion: selectedOccasion || "",
                 include: includedIngredients || [],
                 exclude: excludedIngredients || [],
-                matchMode
+                match_all: matchMode === "strict"
             };
 
             const response = await axios.post<Recipe[]>(`${API_URL}/recipes/filter`, payload, {
