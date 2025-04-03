@@ -113,7 +113,7 @@ export default function HelpMeDecide() {
                 {["Breakfast", "Lunch", "Dinner", "Dessert"].map((o) => (
                     <button
                         key={o}
-                        className="w-full max-w-xs py-4 mb-4 rounded-2xl bg-[#8ECAE6] text-lg font-bold text-black transition-all hover:bg-[#219EBC]"
+                        className="w-full max-w-xs py-4 mb-4 rounded-2xl bg-[#1E88E5] text-lg font-bold text-white transition-all hover:bg-[#1565C0]"
                         onClick={() => handleOccasionSelect(o)}
                     >
                         {o}
@@ -165,31 +165,57 @@ export default function HelpMeDecide() {
                 })}
 
                 <div className="flex flex-col gap-4 mt-6">
-                    <button
-                        className="bg-gray-400 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded"
-                        onClick={resetSelection}
-                    >
-                        Reset selection
-                    </button>
-
-                    {mode === "include" ? (
+                    <div className="flex flex-col gap-4 mt-6">
                         <button
-                            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                            onClick={() => setMode("exclude")}
+                            className="bg-gray-400 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded"
+                            onClick={resetSelection}
                         >
-                            Next: Exclude ingredients
+                            Reset selection
                         </button>
-                    ) : (
+
                         <button
-                            className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+                            className="bg-[#1E88E5] hover:bg-[#1565C0] text-white font-bold py-2 px-4 rounded"
                             onClick={() => {
-                                setMode(null);
-                                setCurrentCategory(null);
+                                const ingredientsToSelect = ingredientOptions[currentCategory] || [];
+                                if (mode === "include") {
+                                    setIncludedIngredients((prev) => [
+                                        ...new Set([...prev, ...ingredientsToSelect]),
+                                    ]);
+                                    setExcludedIngredients((prev) =>
+                                        prev.filter((i) => !ingredientsToSelect.includes(i))
+                                    );
+                                } else {
+                                    setExcludedIngredients((prev) => [
+                                        ...new Set([...prev, ...ingredientsToSelect]),
+                                    ]);
+                                    setIncludedIngredients((prev) =>
+                                        prev.filter((i) => !ingredientsToSelect.includes(i))
+                                    );
+                                }
                             }}
                         >
-                            Back to preferences
+                            Select all
                         </button>
-                    )}
+
+                        {mode === "include" ? (
+                            <button
+                                className="bg-[#1E88E5] hover:bg-[#1565C0] text-white font-bold py-2 px-4 rounded"
+                                onClick={() => setMode("exclude")}
+                            >
+                                Next: Exclude ingredients
+                            </button>
+                        ) : (
+                            <button
+                                className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+                                onClick={() => {
+                                    setMode(null);
+                                    setCurrentCategory(null);
+                                }}
+                            >
+                                Back to preferences
+                            </button>
+                        )}
+                    </div>
                 </div>
             </main>
         );
@@ -213,7 +239,7 @@ export default function HelpMeDecide() {
                 <button
                     key={cat}
                     onClick={() => handleCategorySelect(cat)}
-                    className="w-full max-w-xs py-4 mb-4 rounded-2xl bg-[#8ECAE6] text-lg font-bold text-black transition-all hover:bg-[#219EBC]"
+                    className="w-full max-w-xs py-4 mb-4 rounded-2xl bg-[#1E88E5] text-lg font-bold text-white transition-all hover:bg-[#1565C0]"
                 >
                     {cat}
                 </button>

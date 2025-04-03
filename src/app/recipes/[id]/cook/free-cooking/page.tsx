@@ -123,7 +123,7 @@ export default function FreeCookingPage() {
                     </button>
 
                     <button
-                        className="mt-4 bg-blue-600 hover:bg-blue-700 text-white p-4 rounded-xl font-bold w-full max-w-xs"
+                        className="mt-4 bg-[#1E88E5] hover:bg-[#1565C0] text-white p-4 rounded-xl font-bold w-full max-w-xs"
                         onClick={() => {
                             setFinished(true);
                             launchMagicSparkles();

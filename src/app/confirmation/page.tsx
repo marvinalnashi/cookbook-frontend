@@ -73,13 +73,13 @@ export default function ConfirmationPage() {
                 </button>
                 <div className="mb-4 flex gap-4">
                     <button
-                        className={`flex-1 p-2 rounded ${matchMode === "partial" ? "bg-blue-500 text-white" : "bg-gray-200 text-black"}`}
+                        className={`flex-1 p-2 rounded ${matchMode === "partial" ? "bg-[#1E88E5] text-white" : "bg-gray-200 text-black"}`}
                         onClick={() => setMatchMode("partial")}
                     >
                         Match any ingredient
                     </button>
                     <button
-                        className={`flex-1 p-2 rounded ${matchMode === "strict" ? "bg-blue-500 text-white" : "bg-gray-200 text-black"}`}
+                        className={`flex-1 p-2 rounded ${matchMode === "strict" ? "bg-[#1E88E5] text-white" : "bg-gray-200 text-black"}`}
                         onClick={() => setMatchMode("strict")}
                     >
                         Match all ingredients
