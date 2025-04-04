@@ -4,30 +4,19 @@
   --primary: #FFB703;
   --secondary: #219EBC;
   --accent: #8ECAE6;
-  --text: #023047;
   --error: #D62828;
 }
 
-.dark {
-  --background: #000000;
-  --text: #ffffff;
-}
-
 body {
-  background-color: var(--background);
-  transition: background-color 0.3s ease, color 0.3s ease;
   font-family: 'Arial', sans-serif;
   margin: 0;
   padding: 0;
-  height: 100vh;
-  overflow-y: scroll;
   scrollbar-width: none;
 }
 
 body::-webkit-scrollbar {
   display: none;
 }
-
 
 h1, h2, h3 {
   font-weight: bold;

@@ -9,11 +9,11 @@ export default function OptionsPage() {
 
     return (
         <div className="flex flex-col items-center">
-            <h1 className="text-2xl font-bold mb-6 text-gray-900 dark:text-white">Options</h1>
+            <h1 className="text-2xl font-bold mb-6 text-black dark:text-white">Options</h1>
 
             <button
                 onClick={() => router.push("/")}
-                className="flex items-center justify-center w-60 px-4 py-4 rounded-2xl bg-[#FCA5A5] text-gray-900 dark:text-white dark:text-white text-lg font-bold mb-4 hover:bg-[#EF4444]"
+                className="flex items-center justify-center w-60 px-4 py-4 rounded-2xl bg-[#FCA5A5] text-black dark:text-white text-lg font-bold mb-4 hover:bg-[#EF4444]"
             >
                 🏠 Home
             </button>
