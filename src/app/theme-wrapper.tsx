@@ -1,19 +1,17 @@
 "use client";
 
-import React, { useEffect } from "react";
+import { useTheme } from "./theme-context";
+import React from "react";
 
 export default function ThemeWrapper({ children }: { children: React.ReactNode }) {
-    useEffect(() => {
-        const theme = localStorage.getItem("theme") || "light";
-        if (theme === "dark") {
-            document.documentElement.classList.add("dark");
-        } else {
-            document.documentElement.classList.remove("dark");
-        }
-    }, []);
+    const { theme } = useTheme();
 
     return (
-        <div className="flex flex-col items-center justify-start h-screen overflow-y-auto px-6 py-4 bg-background text-text dark:bg-gray-900 dark:text-white transition-colors">
+        <div
+            className={`flex flex-col items-center justify-start h-screen overflow-y-auto px-6 py-4 transition-colors ${
+                theme === "dark" ? "bg-gray-900 text-white" : "bg-white text-black"
+            }`}
+        >
             {children}
         </div>
     );

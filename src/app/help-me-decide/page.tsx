@@ -88,7 +88,7 @@ export default function HelpMeDecide() {
                 </div>
 
                 <button
-                    className="flex items-center justify-between gap-2 w-full max-w-xs px-4 py-4 rounded-2xl bg-[#FCA5A5] text-black dark:text-white text-lg font-bold mb-4 transition-all hover:bg-[#EF4444]"
+                    className="flex items-center justify-between gap-2 w-full max-w-xs px-4 py-4 rounded-2xl bg-[#FCA5A5] text-black text-lg font-bold mb-4 transition-all hover:bg-[#EF4444]"
                     onClick={() => {
                         localStorage.removeItem("includedIngredients");
                         localStorage.removeItem("excludedIngredients");
@@ -102,7 +102,7 @@ export default function HelpMeDecide() {
                 </button>
 
                 <button
-                    className="flex items-center justify-between gap-2 w-full max-w-xs px-4 py-4 rounded-2xl bg-[#FCA5A5] text-black dark:text-white text-lg font-bold mb-6 transition-all hover:bg-[#EF4444]"
+                    className="flex items-center justify-between gap-2 w-full max-w-xs px-4 py-4 rounded-2xl bg-[#FCA5A5] text-black text-lg font-bold mb-6 transition-all hover:bg-[#EF4444]"
                     onClick={() => router.push("/recipes")}
                 >
                     <span className="text-2xl">⏩</span>
@@ -155,8 +155,8 @@ export default function HelpMeDecide() {
                                         ? "bg-green-600 text-white"
                                         : "bg-red-600 text-white"
                                     : mode === "include"
-                                        ? "bg-[#B9FBC0] text-black dark:text-white hover:bg-green-400"
-                                        : "bg-[#FCA5A5] text-black dark:text-white hover:bg-red-400"
+                                        ? "bg-[#B9FBC0] text-black hover:bg-green-400"
+                                        : "bg-[#FCA5A5] text-black hover:bg-red-400"
                             }`}
                         >
                             {ing}

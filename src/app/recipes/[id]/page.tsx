@@ -51,18 +51,18 @@ export default function RecipeDetailPage() {
     return (
         <div className="p-6">
             <h1 className="text-2xl font-bold mb-2">{recipe.title}</h1>
-            <p className="text-gray-700 mb-4">{recipe.description}</p>
-            <p className="text-gray-600"><strong>Occasion:</strong> {recipe.occasion}</p>
+            <p className="mb-4">{recipe.description}</p>
+            <p><strong>Occasion:</strong> {recipe.occasion}</p>
 
             <h2 className="text-lg font-semibold mt-4">Ingredients</h2>
-            <ul className="list-disc ml-6 text-gray-800">
+            <ul className="list-disc ml-6">
                 {recipe.ingredients.map((ingredient, index) => (
                     <li key={index}>{ingredient}</li>
                 ))}
             </ul>
 
             <h2 className="text-lg font-semibold mt-4">Preparation Steps</h2>
-            <ol className="list-decimal ml-6 text-gray-800">
+            <ol className="list-decimal ml-6">
                 {recipe.steps.map((step, index) => (
                     <li key={index}>{step}</li>
                 ))}

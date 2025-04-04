@@ -1,47 +1,32 @@
 "use client";
 
+import { useTheme } from "../theme-context";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
 
 export default function OptionsPage() {
+    const { theme, toggleTheme } = useTheme();
     const router = useRouter();
-    const [isDark, setIsDark] = useState(false);
-
-    useEffect(() => {
-        const theme = localStorage.getItem("theme") || "light";
-        setIsDark(theme === "dark");
-    }, []);
-
-    const toggleDarkMode = () => {
-        const newMode = isDark ? "light" : "dark";
-        localStorage.setItem("theme", newMode);
-        setIsDark(!isDark);
-
-        if (newMode === "dark") {
-            document.documentElement.classList.add("dark");
-        } else {
-            document.documentElement.classList.remove("dark");
-        }
-    };
 
     return (
-        <div className="p-6 space-y-6">
-            <h1 className="text-2xl font-bold mb-4">Options</h1>
+        <div className="flex flex-col items-center">
+            <h1 className="text-2xl font-bold mb-6">Options</h1>
 
             <button
-                className="bg-[#FFB703] hover:bg-orange-500 text-black dark:text-white font-bold py-2 px-4 rounded"
                 onClick={() => router.push("/")}
+                className="flex items-center justify-center w-60 px-4 py-4 rounded-2xl bg-[#FCA5A5] text-black dark:text-white text-lg font-bold mb-4 hover:bg-[#EF4444]"
             >
                 🏠 Home
             </button>
 
             <button
-                className={`w-full py-2 px-4 rounded text-lg font-bold ${
-                    isDark ? "bg-green-600 text-white" : "bg-blue-600 text-white"
+                onClick={toggleTheme}
+                className={`flex items-center justify-center w-60 px-4 py-4 rounded-2xl text-lg font-bold mb-4 ${
+                    theme === "dark"
+                        ? "bg-green-600 text-white"
+                        : "bg-blue-600 text-white"
                 }`}
-                onClick={toggleDarkMode}
             >
-                {isDark ? "🌙 Dark Mode - ON" : "🌙 Dark Mode - OFF"}
+                {theme === "dark" ? "🌙 Dark Mode - ON" : "🌙 Dark Mode - OFF"}
             </button>
         </div>
     );
