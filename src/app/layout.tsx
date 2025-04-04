@@ -11,11 +11,9 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
     return (
         <html lang="en">
-        <body className="bg-white dark:bg-gray-900 text-neutral-900 dark:text-white transition-colors duration-300">
+        <body className="bg-white dark:bg-gray-900 text-gray-900 dark:text-white transition-colors duration-300">
         <ThemeProvider>
-            <main className="relative w-full max-w-md mx-auto min-h-screen overflow-x-hidden overflow-y-auto px-4 py-6">
-                {children}
-            </main>
+            <div className="w-full max-w-md mx-auto px-4 py-6">{children}</div>
         </ThemeProvider>
         </body>
         </html>

@@ -9,7 +9,7 @@ export default function ScrollIndicator() {
         const handleScroll = () => {
             const win = window.innerHeight + window.scrollY;
             const doc = document.body.offsetHeight;
-            setAtBottom(win >= doc);
+            setAtBottom((window.innerHeight + window.scrollY) >= (document.body.offsetHeight - 5));
         };
         window.addEventListener("scroll", handleScroll);
         return () => window.removeEventListener("scroll", handleScroll);

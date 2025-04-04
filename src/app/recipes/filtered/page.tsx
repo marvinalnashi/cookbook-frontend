@@ -25,7 +25,7 @@ export default function FilteredRecipesPage() {
 
     return (
         <main
-            className="flex flex-col items-center justify-start w-full h-screen px-4 py-6 overflow-y-auto">
+            className="flex flex-col items-center justify-start w-full px-4 py-6 overflow-y-auto">
             <div className="w-32 h-32 rounded-md mb-4 flex items-center justify-center">
                 <img
                     src={"/ratwizard4.png"}

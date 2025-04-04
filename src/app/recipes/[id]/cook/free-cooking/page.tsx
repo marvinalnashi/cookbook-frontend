@@ -70,7 +70,7 @@ export default function FreeCookingPage() {
     if (!recipe) return <p className="p-6">Loading recipe...</p>;
 
     return (
-        <main className="flex flex-col items-center justify-start w-full h-screen px-4 py-6 overflow-y-auto">
+        <main className="flex flex-col items-center justify-start w-full px-4 py-6 overflow-y-auto">
             <div className="relative w-full max-w-md mt-6">
                 <div className="absolute -top-36 left-1/2 transform -translate-x-1/2 z-10 w-32 h-auto mt-32">
                     <img

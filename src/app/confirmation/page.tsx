@@ -66,40 +66,33 @@ export default function ConfirmationPage() {
                 </li>
             </ul>
 
-            <div className="mt-6 flex flex-col sm:flex-row sm:justify-between gap-4">
-                <button
-                    onClick={() => router.push("/help-me-decide")}
-                    className="bg-[#1E88E5] hover:bg-[#1565C0] text-white py-3 px-4 rounded-md w-full"
-                >
-                    Back
-                </button>
-                <div className="flex gap-2 w-full">
+            <div className="mt-6 flex flex-col gap-3 w-full">
+                <div className="flex gap-2 justify-between">
                     <button
-                        className={`flex-1 py-2 rounded ${
-                            matchMode === "partial"
-                                ? "bg-[#1E88E5] text-white"
-                                : "bg-gray-200 text-gray-900 dark:text-white"
-                        }`}
-                        onClick={() => setMatchMode("partial")}
+                        onClick={() => router.push("/help-me-decide")}
+                        className="bg-[#1E88E5] hover:bg-[#1565C0] text-white py-3 px-4 rounded-md w-1/2"
                     >
-                        Match any ingredient
+                        Back
                     </button>
                     <button
-                        className={`flex-1 py-2 rounded ${
-                            matchMode === "strict"
-                                ? "bg-[#1E88E5] text-white"
-                                : "bg-gray-200 text-gray-900 dark:text-white"
-                        }`}
-                        onClick={() => setMatchMode("strict")}
+                        onClick={fetchFilteredRecipes}
+                        className="bg-[#1E88E5] hover:bg-[#1565C0] text-white py-3 px-4 rounded-md w-1/2"
                     >
-                        Match all ingredients
+                        Recipes
                     </button>
                 </div>
+
                 <button
-                    onClick={fetchFilteredRecipes}
-                    className="bg-[#1E88E5] hover:bg-[#1565C0] text-white py-3 px-4 rounded-md w-full"
+                    className={`py-2 rounded w-full ${matchMode === "partial" ? "bg-[#1E88E5] text-white" : "bg-gray-200 text-gray-900 dark:text-white"}`}
+                    onClick={() => setMatchMode("partial")}
                 >
-                    Recipes
+                    Match any ingredient
+                </button>
+                <button
+                    className={`py-2 rounded w-full ${matchMode === "strict" ? "bg-[#1E88E5] text-white" : "bg-gray-200 text-gray-900 dark:text-white"}`}
+                    onClick={() => setMatchMode("strict")}
+                >
+                    Match all ingredients
                 </button>
             </div>
 
