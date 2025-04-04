@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import LEDStatus from "@/components/led-status";
+import {speakVisibleText} from "@/utils/narrator";
 
 const API_URL = process.env.NEXT_PUBLIC_BACKEND_URL || "https://little-chefs-cookbook-production.up.railway.app";
 
@@ -16,6 +17,7 @@ export default function Home() {
             .get(`${API_URL}/ping`)
             .then((res) => setPong(res.data.message))
             .catch((err) => console.error("Backend ping failed", err));
+        speakVisibleText();
     }, []);
 
     const playSound = () => {

@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import axios from "axios";
+import {speakVisibleText} from "@/utils/narrator";
 
 const API_URL = process.env.NEXT_PUBLIC_BACKEND_URL || "https://little-chefs-cookbook-production.up.railway.app";
 
@@ -24,6 +25,7 @@ export default function ConfirmationPage() {
         setSelectedOccasion(localStorage.getItem("selectedOccasion") || "");
         setIncludedIngredients(JSON.parse(localStorage.getItem("includedIngredients") || "[]"));
         setExcludedIngredients(JSON.parse(localStorage.getItem("excludedIngredients") || "[]"));
+        speakVisibleText();
     }, []);
 
     const fetchFilteredRecipes = async () => {

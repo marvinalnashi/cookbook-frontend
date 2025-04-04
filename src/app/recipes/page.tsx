@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 import ScrollIndicator from "@/components/ScrollIndicator";
+import {speakVisibleText} from "@/utils/narrator";
 
 const API_URL = "https://little-chefs-cookbook-production.up.railway.app";
 
@@ -36,8 +37,8 @@ export default function RecipesPage() {
                 setError("Could not load recipes.");
             }
         };
-
         fetchRecipes();
+        speakVisibleText();
     }, []);
 
     if (error) return <p className="p-6 text-red-500">{error}</p>;

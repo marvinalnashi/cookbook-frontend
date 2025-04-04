@@ -2,6 +2,7 @@
 import { useTheme } from "@/context/ThemeContext";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import {speakVisibleText} from "@/utils/narrator";
 
 export default function Page() {
     const { theme, toggleTheme } = useTheme();
@@ -13,6 +14,7 @@ export default function Page() {
         if (savedVolume !== null) {
             setVolume(parseFloat(savedVolume));
         }
+        speakVisibleText();
     }, []);
 
     const handleVolumeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -58,7 +60,17 @@ export default function Page() {
                 <span className="flex-1 text-center">Clear Localstorage</span>
                 <span className="text-sm">🔍</span>
             </button>
-
+            <button
+                onClick={() => {
+                    const current = localStorage.getItem("narratorMode") === "true";
+                    localStorage.setItem("narratorMode", (!current).toString());
+                }}
+                className="bg-[#F59E0B] hover:bg-[#D97706] text-white flex items-center justify-between gap-2 w-full max-w-xs px-4 py-4 rounded-2xl text-lg font-bold mt-6 transition-all"
+            >
+                <span className="text-2xl">🗣️</span>
+                <span className="flex-1 text-center">Toggle Narrator Mode</span>
+                <span className="text-sm">🎧</span>
+            </button>
             <div className="mt-6 w-full max-w-xs">
                 <label htmlFor="volume" className="block text-md font-semibold text-black dark:text-white mb-2">
                     Sound Volume: {(volume * 100).toFixed(0)}%

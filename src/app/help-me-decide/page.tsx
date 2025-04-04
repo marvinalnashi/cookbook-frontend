@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import {speakVisibleText} from "@/utils/narrator";
 
 export default function HelpMeDecide() {
     const router = useRouter();
@@ -28,6 +29,7 @@ export default function HelpMeDecide() {
         if (savedOccasion) setSelectedOccasion(savedOccasion);
         setIncludedIngredients(savedIncluded);
         setExcludedIngredients(savedExcluded);
+        speakVisibleText();
     }, []);
 
     const handleOccasionSelect = (occasion: string) => {

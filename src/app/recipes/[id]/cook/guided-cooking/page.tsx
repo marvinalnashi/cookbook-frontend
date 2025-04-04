@@ -4,6 +4,7 @@ import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import confetti, { Shape } from "canvas-confetti";
+import {speakVisibleText} from "@/utils/narrator";
 
 const API_URL = "https://little-chefs-cookbook-production.up.railway.app";
 
@@ -31,8 +32,8 @@ export default function GuidedCookingPage() {
                 console.error("Error loading recipe:", err);
             }
         }
-
         fetchRecipe();
+        speakVisibleText();
     }, [id]);
 
     const handleNext = () => {

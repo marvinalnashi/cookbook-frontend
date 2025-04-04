@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import ScrollIndicator from "@/components/ScrollIndicator";
+import {speakVisibleText} from "@/utils/narrator";
 
 interface Recipe {
     id: number;
@@ -19,6 +20,7 @@ export default function FilteredRecipesPage() {
         if (stored) {
             setRecipes(JSON.parse(stored));
         }
+        speakVisibleText();
     }, []);
 
     if (recipes.length === 0) return <p className="p-6">No filtered recipes found.</p>;

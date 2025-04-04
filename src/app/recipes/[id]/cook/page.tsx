@@ -1,10 +1,17 @@
 "use client";
 
 import { useRouter, useParams } from "next/navigation";
+import {useEffect} from "react";
+import axios from "axios";
+import {speakVisibleText} from "@/utils/narrator";
 
 export default function CookingModePage() {
     const router = useRouter();
     const { id } = useParams();
+
+    useEffect(() => {
+        speakVisibleText();
+    }, []);
 
     return (
         <div className="p-6">

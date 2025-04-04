@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter, useParams } from "next/navigation";
 import axios from "axios";
+import {speakVisibleText} from "@/utils/narrator";
 
 const API_URL = process.env.NEXT_PUBLIC_BACKEND_URL || "https://little-chefs-cookbook-production.up.railway.app";
 
@@ -43,6 +44,7 @@ export default function RecipeDetailPage() {
                 console.error("Error fetching recipe:", err);
                 setError("Recipe not found or API unreachable.");
             });
+        speakVisibleText();
     }, [id]);
 
     if (error) return <p className="p-6 text-red-500">{error}</p>;
