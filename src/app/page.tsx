@@ -18,6 +18,17 @@ export default function Home() {
             .catch((err) => console.error("Backend ping failed", err));
     }, []);
 
+    const playSound = () => {
+        const audio = new Audio("/effect1.ogg");
+        audio.volume = 0.7;
+        audio.play().catch((e) => console.error("Sound playback error:", e));
+    };
+
+    const handleClick = (path: string) => {
+        playSound();
+        setTimeout(() => router.push(path), 150);
+    };
+
     return (
         <main className="flex flex-col items-center justify-start w-full h-screen px-4 py-6 overflow-y-auto">
             <div className="w-32 h-32 rounded-md mb-4 flex items-center justify-center">
@@ -34,7 +45,7 @@ export default function Home() {
 
             <button
                 className="flex items-center justify-between gap-2 w-full max-w-xs px-4 py-4 rounded-2xl text-white bg-[#1E88E5] text-lg font-bold mb-4 transition-all hover:bg-[#1565C0]"
-                onClick={() => router.push("/help-me-decide")}
+                onClick={() => handleClick("/help-me-decide")}
             >
                 <span className="text-2xl">⭐</span>
                 <span className="flex-1 text-center">Help me to decide</span>
@@ -43,7 +54,7 @@ export default function Home() {
 
             <button
                 className="flex items-center justify-between gap-2 w-full max-w-xs px-4 py-4 rounded-2xl text-white bg-[#1E88E5] text-lg font-bold mb-4 transition-all hover:bg-[#1565C0]"
-                onClick={() => router.push("/recipes")}
+                onClick={() => handleClick("/recipes")}
             >
                 <span className="text-2xl">📋</span>
                 <span className="flex-1 text-center">All recipes</span>
@@ -52,9 +63,9 @@ export default function Home() {
 
             <button
                 className="flex items-center justify-between gap-2 w-full max-w-xs px-4 py-4 rounded-2xl text-white bg-[#1E88E5] text-lg font-bold mb-6 transition-all hover:bg-[#1565C0]"
-                onClick={() => router.push("/options")}
+                onClick={() => handleClick("/options")}
             >
-                <span className="text-2xl">🎚️</span>
+                <span className="text-2xl">⚙️</span>
                 <span className="flex-1 text-center">Options</span>
                 <span className="text-sm">🔍</span>
             </button>
