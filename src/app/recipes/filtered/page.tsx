@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import ScrollIndicator from "@/components/ScrollIndicator";
 
 interface Recipe {
     id: number;
@@ -62,6 +63,7 @@ export default function FilteredRecipesPage() {
                     <span className="text-sm">🔍</span>
                 </button>
             ))}
+            <ScrollIndicator />
         </main>
     );
 }

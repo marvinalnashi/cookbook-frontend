@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import axios from "axios";
+import ScrollIndicator from "@/components/ScrollIndicator";
 
 const API_URL = "https://little-chefs-cookbook-production.up.railway.app";
 
@@ -82,6 +83,7 @@ export default function RecipesPage() {
                     <span className="text-sm">🔍</span>
                 </button>
             ))}
+            <ScrollIndicator />
         </main>
     );
 }

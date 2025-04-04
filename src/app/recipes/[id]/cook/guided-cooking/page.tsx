@@ -80,9 +80,9 @@ export default function GuidedCookingPage() {
     return (
         <main className="flex flex-col items-center justify-start w-full h-screen px-4 py-6 overflow-y-auto">
             <div className="flex flex-col items-center mb-6 w-full max-w-md">
-                <h1 className="text-2xl font-bold text-center mb-2">{recipe.title}</h1>
-                <p className="text-center text-md mb-2">{recipe.description}</p>
-                <p className="text-center text-md mb-4">
+                <h1 className="text-2xl font-bold text-center mb-2 text-gray-900 dark:text-white">{recipe.title}</h1>
+                <p className="text-center text-md mb-2 text-gray-800 dark:text-white">{recipe.description}</p>
+                <p className="text-center text-md mb-4 text-gray-800 dark:text-white">
                     <strong>Ingredients:</strong> {recipe.ingredients.join(", ")}
                 </p>
 

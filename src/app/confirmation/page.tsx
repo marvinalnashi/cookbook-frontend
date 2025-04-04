@@ -66,28 +66,39 @@ export default function ConfirmationPage() {
                 </li>
             </ul>
 
-            <div className="mt-6 flex justify-between">
-                <button onClick={() => router.push("/help-me-decide")}
-                        className="bg-[#1E88E5] hover:bg-[#1565C0] text-white p-4 mr-3 rounded-md">
+            <div className="mt-6 flex flex-col sm:flex-row sm:justify-between gap-4">
+                <button
+                    onClick={() => router.push("/help-me-decide")}
+                    className="bg-[#1E88E5] hover:bg-[#1565C0] text-white py-3 px-4 rounded-md w-full"
+                >
                     Back
                 </button>
-                <div className="mb-4 flex gap-4">
+                <div className="flex gap-2 w-full">
                     <button
-                        className={`flex-1 p-2 rounded ${matchMode === "partial" ? "bg-[#1E88E5] text-white" : "bg-gray-200 text-gray-900 dark:text-white"}`}
+                        className={`flex-1 py-2 rounded ${
+                            matchMode === "partial"
+                                ? "bg-[#1E88E5] text-white"
+                                : "bg-gray-200 text-gray-900 dark:text-white"
+                        }`}
                         onClick={() => setMatchMode("partial")}
                     >
                         Match any ingredient
                     </button>
                     <button
-                        className={`flex-1 p-2 rounded ${matchMode === "strict" ? "bg-[#1E88E5] text-white" : "bg-gray-200 text-gray-900 dark:text-white"}`}
+                        className={`flex-1 py-2 rounded ${
+                            matchMode === "strict"
+                                ? "bg-[#1E88E5] text-white"
+                                : "bg-gray-200 text-gray-900 dark:text-white"
+                        }`}
                         onClick={() => setMatchMode("strict")}
                     >
                         Match all ingredients
                     </button>
                 </div>
-
-                <button onClick={fetchFilteredRecipes}
-                        className="bg-[#1E88E5] hover:bg-[#1565C0] text-white p-4 ml-3 rounded-md">
+                <button
+                    onClick={fetchFilteredRecipes}
+                    className="bg-[#1E88E5] hover:bg-[#1565C0] text-white py-3 px-4 rounded-md w-full"
+                >
                     Recipes
                 </button>
             </div>

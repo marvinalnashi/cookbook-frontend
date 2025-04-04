@@ -9,7 +9,7 @@ export default function OptionsPage() {
 
     return (
         <div className="flex flex-col items-center">
-            <h1 className="text-2xl font-bold mb-6">Options</h1>
+            <h1 className="text-2xl font-bold mb-6 text-gray-900 dark:text-white">Options</h1>
 
             <button
                 onClick={() => router.push("/")}
