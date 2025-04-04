@@ -19,8 +19,10 @@ export default function FilteredRecipesPage() {
         const stored = localStorage.getItem("filteredRecipes");
         if (stored) {
             setRecipes(JSON.parse(stored));
+            setTimeout(() => {
+                speakVisibleText();
+            }, 300);
         }
-        speakVisibleText();
     }, []);
 
     if (recipes.length === 0) return <p className="p-6">No filtered recipes found.</p>;

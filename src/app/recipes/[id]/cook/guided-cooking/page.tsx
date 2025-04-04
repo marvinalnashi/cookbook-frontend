@@ -4,7 +4,7 @@ import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import confetti, { Shape } from "canvas-confetti";
-import {speakVisibleText} from "@/utils/narrator";
+import { speakVisibleText } from "@/utils/narrator";
 
 const API_URL = "https://little-chefs-cookbook-production.up.railway.app";
 
@@ -22,6 +22,7 @@ export default function GuidedCookingPage() {
     const [recipe, setRecipe] = useState<Recipe | null>(null);
     const [currentStep, setCurrentStep] = useState<number>(0);
     const [isFinishing, setIsFinishing] = useState<boolean>(false);
+    const [hasNarratedIntro, setHasNarratedIntro] = useState<boolean>(false);
 
     useEffect(() => {
         async function fetchRecipe() {
@@ -33,8 +34,25 @@ export default function GuidedCookingPage() {
             }
         }
         fetchRecipe();
-        speakVisibleText();
     }, [id]);
+
+    useEffect(() => {
+        if (recipe && !hasNarratedIntro) {
+            speakVisibleText();
+            setHasNarratedIntro(true);
+        }
+    }, [recipe]);
+
+    useEffect(() => {
+        if (recipe && hasNarratedIntro) {
+            const stepElement = document.querySelector(".bubble-pop");
+            if (stepElement) {
+                const utterance = new SpeechSynthesisUtterance(stepElement.textContent || "");
+                utterance.volume = parseFloat(localStorage.getItem("sfxVolume") || "0.7");
+                window.speechSynthesis.speak(utterance);
+            }
+        }
+    }, [currentStep]);
 
     const handleNext = () => {
         if (recipe && currentStep < recipe.steps.length - 1) {
@@ -136,9 +154,7 @@ export default function GuidedCookingPage() {
             <div key={currentStep} className="relative w-full max-w-md mt-30">
                 {!isFinishing && (
                     <div
-                        className={`absolute -top-40 z-10 w-40 transition-all duration-500 ${
-                            isEven ? "left-0" : "right-0"
-                        }`}
+                        className={`absolute -top-40 z-10 w-40 transition-all duration-500 ${isEven ? "left-0" : "right-0"}`}
                     >
                         <img
                             src={`/ratwizard${isEven ? "1" : "2"}.png`}

@@ -29,7 +29,6 @@ export default function HelpMeDecide() {
         if (savedOccasion) setSelectedOccasion(savedOccasion);
         setIncludedIngredients(savedIncluded);
         setExcludedIngredients(savedExcluded);
-        speakVisibleText();
     }, []);
 
     const handleOccasionSelect = (occasion: string) => {
@@ -75,6 +74,9 @@ export default function HelpMeDecide() {
     };
 
     if (!selectedOccasion) {
+        useEffect(() => {
+            speakVisibleText();
+        }, []);
         return (
             <main className="p-6 flex flex-col items-center text-center">
                 <div className="w-32 h-32 rounded-md mb-4 flex items-center justify-center">
@@ -128,7 +130,9 @@ export default function HelpMeDecide() {
     if (currentCategory && mode) {
         const label = mode === "include" ? "Select ingredients to include:" : "Select ingredients to exclude:";
         const ingredients = ingredientOptions[currentCategory];
-
+        useEffect(() => {
+            speakVisibleText();
+        }, [currentCategory, mode]);
         return (
             <main className="p-6 flex flex-col items-center text-center">
                 <div className="w-32 h-32 rounded-md mb-4 flex items-center justify-center">
@@ -223,6 +227,9 @@ export default function HelpMeDecide() {
         );
     }
 
+    useEffect(() => {
+        speakVisibleText();
+    }, []);
     return (
         <main className="p-6 flex flex-col items-center text-center">
             <div className="w-32 h-32 rounded-md mb-4 flex items-center justify-center">

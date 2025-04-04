@@ -35,13 +35,13 @@ export default function FreeCookingPage() {
                 if (response.status === 200) {
                     setRecipe(response.data);
                     setError(null);
+                    speakVisibleText();
                 }
             })
             .catch((err) => {
                 console.error("Error fetching recipe:", err);
                 setError("Recipe not found.");
             });
-        speakVisibleText();
     }, [id]);
 
     function launchMagicSparkles() {

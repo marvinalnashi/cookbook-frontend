@@ -23,14 +23,13 @@ export default function RecipesPage() {
         const fetchRecipes = async () => {
             try {
                 const response = await axios.get<Recipe[]>(`${API_URL}/recipes`, {
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
+                    headers: { "Content-Type": "application/json" },
                 });
 
                 if (response.status === 200) {
                     setRecipes(response.data);
                     setError(null);
+                    speakVisibleText();
                 }
             } catch (err) {
                 console.error("Error fetching recipes:", err);
@@ -38,7 +37,6 @@ export default function RecipesPage() {
             }
         };
         fetchRecipes();
-        speakVisibleText();
     }, []);
 
     if (error) return <p className="p-6 text-red-500">{error}</p>;
