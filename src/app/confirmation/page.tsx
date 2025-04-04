@@ -73,13 +73,13 @@ export default function ConfirmationPage() {
                 </button>
                 <div className="mb-4 flex gap-4">
                     <button
-                        className={`flex-1 p-2 rounded ${matchMode === "partial" ? "bg-[#1E88E5] text-white" : "bg-gray-200 text-black"}`}
+                        className={`flex-1 p-2 rounded ${matchMode === "partial" ? "bg-[#1E88E5] text-white" : "bg-gray-200 text-gray-900 dark:text-white"}`}
                         onClick={() => setMatchMode("partial")}
                     >
                         Match any ingredient
                     </button>
                     <button
-                        className={`flex-1 p-2 rounded ${matchMode === "strict" ? "bg-[#1E88E5] text-white" : "bg-gray-200 text-black"}`}
+                        className={`flex-1 p-2 rounded ${matchMode === "strict" ? "bg-[#1E88E5] text-white" : "bg-gray-200 text-gray-900 dark:text-white"}`}
                         onClick={() => setMatchMode("strict")}
                     >
                         Match all ingredients
@@ -98,8 +98,8 @@ export default function ConfirmationPage() {
                     <ul className="space-y-4">
                         {filteredRecipes.map((recipe) => (
                             <li key={recipe.id} className="p-4 bg-white rounded-md border border-gray-300 shadow-sm">
-                                <h2 className="text-lg font-semibold text-black">{recipe.title}</h2>
-                                <p className="text-black">{recipe.description}</p>
+                                <h2 className="text-lg font-semibold text-gray-900 dark:text-white">{recipe.title}</h2>
+                                <p className="text-gray-900 dark:text-white">{recipe.description}</p>
                             </li>
                         ))}
                     </ul>
