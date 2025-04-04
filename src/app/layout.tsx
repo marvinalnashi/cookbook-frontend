@@ -1,7 +1,5 @@
-import "./globals.css";
 import type { Metadata } from "next";
-import { ThemeProvider } from "./theme-context";
-import React from "react";
+import "./globals.css";
 
 export const metadata: Metadata = {
     title: "Little Chef's Cookbook",
@@ -10,11 +8,9 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
     return (
-        <html lang="en" suppressHydrationWarning>
-        <body className="bg-white text-black dark:bg-black dark:text-white transition-colors duration-300">
-        <ThemeProvider>
-            <div className="max-w-md w-full mx-auto px-4 py-6">{children}</div>
-        </ThemeProvider>
+        <html lang="en">
+        <body className="flex flex-col items-center justify-start h-screen overflow-y-auto px-6 py-4">
+        {children}
         </body>
         </html>
     );

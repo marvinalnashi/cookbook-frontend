@@ -83,13 +83,13 @@ export default function ConfirmationPage() {
                 </div>
 
                 <button
-                    className={`py-2 rounded w-full ${matchMode === "partial" ? "bg-[#1E88E5] text-white" : "bg-gray-200 text-black dark:text-white"}`}
+                    className={`py-2 rounded w-full ${matchMode === "partial" ? "bg-[#1E88E5] text-white" : "bg-gray-200 text-black"}`}
                     onClick={() => setMatchMode("partial")}
                 >
                     Match any ingredient
                 </button>
                 <button
-                    className={`py-2 rounded w-full ${matchMode === "strict" ? "bg-[#1E88E5] text-white" : "bg-gray-200 text-black dark:text-white"}`}
+                    className={`py-2 rounded w-full ${matchMode === "strict" ? "bg-[#1E88E5] text-white" : "bg-gray-200 text-black"}`}
                     onClick={() => setMatchMode("strict")}
                 >
                     Match all ingredients
@@ -102,8 +102,8 @@ export default function ConfirmationPage() {
                     <ul className="space-y-4">
                         {filteredRecipes.map((recipe) => (
                             <li key={recipe.id} className="p-4 bg-white rounded-md border border-gray-300 shadow-sm">
-                                <h2 className="text-lg font-semibold text-black dark:text-white">{recipe.title}</h2>
-                                <p className="text-black dark:text-white">{recipe.description}</p>
+                                <h2 className="text-lg font-semibold text-black">{recipe.title}</h2>
+                                <p className="text-black">{recipe.description}</p>
                             </li>
                         ))}
                     </ul>
