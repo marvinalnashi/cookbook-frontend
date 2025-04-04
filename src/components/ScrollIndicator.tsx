@@ -7,8 +7,6 @@ export default function ScrollIndicator() {
 
     useEffect(() => {
         const handleScroll = () => {
-            const win = window.innerHeight + window.scrollY;
-            const doc = document.body.offsetHeight;
             setAtBottom((window.innerHeight + window.scrollY) >= (document.body.offsetHeight - 5));
         };
         window.addEventListener("scroll", handleScroll);

@@ -80,9 +80,9 @@ export default function GuidedCookingPage() {
     return (
         <main className="flex flex-col items-center justify-start w-full px-4 py-6 overflow-y-auto">
             <div className="flex flex-col items-center mb-6 w-full max-w-md">
-                <h1 className="text-2xl font-bold text-center mb-2 text-black">{recipe.title}</h1>
-                <p className="text-center text-md mb-2 text-black">{recipe.description}</p>
-                <p className="text-center text-md mb-4 text-black">
+                <h1 className="text-2xl font-bold text-center mb-2">{recipe.title}</h1>
+                <p className="text-center text-md mb-2">{recipe.description}</p>
+                <p className="text-center text-md mb-4">
                     <strong>Ingredients:</strong> {recipe.ingredients.join(", ")}
                 </p>
 
@@ -90,13 +90,13 @@ export default function GuidedCookingPage() {
                     {isFirstStep && (
                         <>
                             <button
-                                className="flex-1 bg-[#FCA5A5] hover:bg-[#EF4444] text-white px-4 py-3 rounded-xl font-bold !text-xs"
+                                className="flex-1 bg-[#FCA5A5] hover:bg-[#EF4444] px-4 py-3 rounded-xl font-bold !text-xs"
                                 onClick={() => router.push(`/recipes/${id}/cook`)}
                             >
                                 Back
                             </button>
                             <button
-                                className="flex-1 bg-[#34D399] hover:bg-[#10B981] text-white px-4 py-3 rounded-xl font-bold !text-xs"
+                                className="flex-1 bg-[#B9FBC0] hover:bg-[#34D399] px-4 py-3 rounded-xl font-bold !text-xs"
                                 onClick={handleNext}
                             >
                                 Next Step
@@ -107,13 +107,13 @@ export default function GuidedCookingPage() {
                     {!isFirstStep && !isLastStep && (
                         <>
                             <button
-                                className="flex-1 bg-[#FCD34D] hover:bg-[#FBBF24] text-white px-4 py-3 rounded-xl font-bold !text-xs"
+                                className="flex-1 bg-[#FDD87A] hover:bg-[#FBBF24] px-4 py-3 rounded-xl font-bold !text-xs"
                                 onClick={handlePrev}
                             >
                                 Previous Step
                             </button>
                             <button
-                                className="flex-1 bg-[#34D399] hover:bg-[#10B981] text-white px-4 py-3 rounded-xl font-bold !text-xs"
+                                className="flex-1 bg-[#B9FBC0] hover:bg-[#34D399] px-4 py-3 rounded-xl font-bold !text-xs"
                                 onClick={handleNext}
                             >
                                 Next Step
@@ -123,7 +123,7 @@ export default function GuidedCookingPage() {
 
                     {isLastStep && (
                         <button
-                            className="flex-1 bg-[#FCD34D] hover:bg-[#FBBF24] text-white px-4 py-3 rounded-xl font-bold !text-xs"
+                            className="flex-1 bg-[#FDD87A] hover:bg-[#FBBF24] px-4 py-3 rounded-xl font-bold !text-xs"
                             onClick={handlePrev}
                         >
                             Previous Step
@@ -157,7 +157,7 @@ export default function GuidedCookingPage() {
                     </div>
                 )}
 
-                <div className="bg-[#8EC5FF] text-white text-center font-bold text-lg px-6 py-6 rounded-full shadow-md w-full relative bubble-pop">
+                <div className="bg-[#8EC5FF] text-center font-bold text-lg px-6 py-6 rounded-full shadow-md w-full relative bubble-pop">
                     <p>
                         <span className="block text-sm mb-2">STEP {currentStep + 1}:</span>
                         {recipe.steps[currentStep]}
@@ -177,14 +177,14 @@ export default function GuidedCookingPage() {
 
             {isLastStep && (
                 <button
-                    className="flex items-center justify-between gap-2 w-full max-w-xs px-4 py-4 rounded-2xl bg-[#1E88E5] text-white text-lg font-bold mt-4 transition-all hover:bg-[#1565C0]"
+                    className="flex items-center justify-between gap-2 w-full max-w-xs px-4 py-4 rounded-2xl bg-[#1E88E5] text-lg font-bold mt-4 transition-all hover:bg-[#1565C0]"
                     onClick={() => {
                         setIsFinishing(true);
                         launchMagicSparkles();
                         setTimeout(() => router.push("/"), 1500);
                     }}
                 >
-                    <span className="flex-1 text-center">Finish</span>
+                    <span className="flex-1 text-center text-white">Finish</span>
                 </button>
             )}
         </main>
