@@ -1,10 +1,28 @@
 "use client";
 import { useTheme } from "@/context/ThemeContext";
 import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 
 export default function Page() {
     const { theme, toggleTheme } = useTheme();
     const router = useRouter();
+    const [volume, setVolume] = useState<number>(0.7);
+
+    useEffect(() => {
+        const savedVolume = localStorage.getItem("sfxVolume");
+        if (savedVolume !== null) {
+            setVolume(parseFloat(savedVolume));
+        }
+    }, []);
+
+    const handleVolumeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const newVolume = parseFloat(e.target.value);
+        setVolume(newVolume);
+        localStorage.setItem("sfxVolume", newVolume.toString());
+        const preview = new Audio("/effect1.ogg");
+        preview.volume = newVolume;
+        preview.play().catch(() => {});
+    };
 
     return (
         <div className="p-6">
@@ -40,6 +58,22 @@ export default function Page() {
                 <span className="flex-1 text-center">Clear Localstorage</span>
                 <span className="text-sm">🔍</span>
             </button>
+
+            <div className="mt-6 w-full max-w-xs">
+                <label htmlFor="volume" className="block text-md font-semibold text-black dark:text-white mb-2">
+                    Sound Volume: {(volume * 100).toFixed(0)}%
+                </label>
+                <input
+                    id="volume"
+                    type="range"
+                    min="0"
+                    max="1"
+                    step="0.2"
+                    value={volume}
+                    onChange={handleVolumeChange}
+                    className="w-full"
+                />
+            </div>
         </div>
     );
 }

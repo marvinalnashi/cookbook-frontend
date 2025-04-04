@@ -20,8 +20,9 @@ export default function Home() {
 
     const playSound = () => {
         const audio = new Audio("/effect1.ogg");
-        audio.volume = 0.7;
-        audio.play().catch((e) => console.error("Sound playback error:", e));
+        const volume = parseFloat(localStorage.getItem("sfxVolume") || "0.7");
+        audio.volume = volume;
+        audio.play().catch(() => {});
     };
 
     const handleClick = (path: string) => {
