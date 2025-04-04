@@ -18,13 +18,13 @@ export default function CookingModePage() {
             <h1 className="text-2xl font-bold mb-4">How do you want to cook?</h1>
             <div className="flex flex-col gap-4">
                 <button
-                    className="flex items-center justify-between gap-2 w-full max-w-xs px-4 py-4 rounded-2xl bg-[#B9FBC0] text-lg font-bold transition-all hover:bg-[#34D399]"
+                    className="flex items-center justify-between gap-2 w-full max-w-xs px-4 py-4 rounded-2xl bg-[#B9FBC0] text-lg font-bold transition-all hover:bg-[#34D399] text-black hover:text-white"
                     onClick={() => router.push(`/recipes/${id}/cook/free-cooking`)}
                 >
                     Free Cooking
                 </button>
                 <button
-                    className="flex items-center justify-between gap-2 w-full max-w-xs px-4 py-4 rounded-2xl bg-[#B9FBC0] text-lg font-bold transition-all hover:bg-[#34D399]"
+                    className="flex items-center justify-between gap-2 w-full max-w-xs px-4 py-4 rounded-2xl bg-[#B9FBC0] text-lg font-bold transition-all hover:bg-[#34D399] text-black hover:text-white"
                     onClick={() => router.push(`/recipes/${id}/cook/guided-cooking`)}
                 >
                     Guided Cooking

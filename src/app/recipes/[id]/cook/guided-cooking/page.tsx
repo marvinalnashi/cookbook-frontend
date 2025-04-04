@@ -90,13 +90,13 @@ export default function GuidedCookingPage() {
                     {isFirstStep && (
                         <>
                             <button
-                                className="flex-1 bg-[#FCA5A5] hover:bg-[#EF4444] px-4 py-3 rounded-xl font-bold !text-xs"
+                                className="flex-1 bg-[#FCA5A5] hover:bg-[#EF4444] transition-all px-4 py-3 rounded-xl font-bold !text-xs text-black hover:text-white"
                                 onClick={() => router.push(`/recipes/${id}/cook`)}
                             >
                                 Back
                             </button>
                             <button
-                                className="flex-1 bg-[#B9FBC0] hover:bg-[#34D399] px-4 py-3 rounded-xl font-bold !text-xs"
+                                className="flex-1 bg-[#B9FBC0] hover:bg-[#34D399] transition-all px-4 py-3 rounded-xl font-bold !text-xs text-black hover:text-white"
                                 onClick={handleNext}
                             >
                                 Next Step
@@ -107,13 +107,13 @@ export default function GuidedCookingPage() {
                     {!isFirstStep && !isLastStep && (
                         <>
                             <button
-                                className="flex-1 bg-[#FDD87A] hover:bg-[#FBBF24] px-4 py-3 rounded-xl font-bold !text-xs"
+                                className="flex-1 bg-[#FDD87A] hover:bg-[#FBBF24] transition-all px-4 py-3 rounded-xl font-bold !text-xs text-black hover:text-white"
                                 onClick={handlePrev}
                             >
                                 Previous Step
                             </button>
                             <button
-                                className="flex-1 bg-[#B9FBC0] hover:bg-[#34D399] px-4 py-3 rounded-xl font-bold !text-xs"
+                                className="flex-1 bg-[#B9FBC0] hover:bg-[#34D399] transition-all px-4 py-3 rounded-xl font-bold !text-xs text-black hover:text-white"
                                 onClick={handleNext}
                             >
                                 Next Step
@@ -123,7 +123,7 @@ export default function GuidedCookingPage() {
 
                     {isLastStep && (
                         <button
-                            className="flex-1 bg-[#FDD87A] hover:bg-[#FBBF24] px-4 py-3 rounded-xl font-bold !text-xs"
+                            className="flex-1 bg-[#FDD87A] hover:bg-[#FBBF24] transition-all px-4 py-3 rounded-xl font-bold !text-xs text-black hover:text-white"
                             onClick={handlePrev}
                         >
                             Previous Step
