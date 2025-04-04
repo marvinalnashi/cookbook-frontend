@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import {speakVisibleText} from "@/utils/narrator";
+import { speakVisibleText } from "@/utils/narrator";
 
 export default function HelpMeDecide() {
     const router = useRouter();
@@ -30,6 +30,10 @@ export default function HelpMeDecide() {
         setIncludedIngredients(savedIncluded);
         setExcludedIngredients(savedExcluded);
     }, []);
+
+    useEffect(() => {
+        speakVisibleText();
+    }, [selectedOccasion, currentCategory, mode]);
 
     const handleOccasionSelect = (occasion: string) => {
         setSelectedOccasion(occasion);
@@ -74,9 +78,6 @@ export default function HelpMeDecide() {
     };
 
     if (!selectedOccasion) {
-        useEffect(() => {
-            speakVisibleText();
-        }, []);
         return (
             <main className="p-6 flex flex-col items-center text-center">
                 <div className="w-32 h-32 rounded-md mb-4 flex items-center justify-center">
@@ -130,9 +131,6 @@ export default function HelpMeDecide() {
     if (currentCategory && mode) {
         const label = mode === "include" ? "Select ingredients to include:" : "Select ingredients to exclude:";
         const ingredients = ingredientOptions[currentCategory];
-        useEffect(() => {
-            speakVisibleText();
-        }, [currentCategory, mode]);
         return (
             <main className="p-6 flex flex-col items-center text-center">
                 <div className="w-32 h-32 rounded-md mb-4 flex items-center justify-center">
@@ -171,65 +169,60 @@ export default function HelpMeDecide() {
                 })}
 
                 <div className="flex flex-col gap-4 mt-6">
-                    <div className="flex flex-col gap-4 mt-6">
-                        <button
-                            className="bg-gray-400 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded"
-                            onClick={resetSelection}
-                        >
-                            Reset selection
-                        </button>
+                    <button
+                        className="bg-gray-400 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded"
+                        onClick={resetSelection}
+                    >
+                        Reset selection
+                    </button>
 
+                    <button
+                        className="bg-[#1E88E5] hover:bg-[#1565C0] text-white font-bold py-2 px-4 rounded"
+                        onClick={() => {
+                            const ingredientsToSelect = ingredientOptions[currentCategory] || [];
+                            if (mode === "include") {
+                                setIncludedIngredients((prev) => [
+                                    ...new Set([...prev, ...ingredientsToSelect])
+                                ]);
+                                setExcludedIngredients((prev) =>
+                                    prev.filter((i) => !ingredientsToSelect.includes(i))
+                                );
+                            } else {
+                                setExcludedIngredients((prev) => [
+                                    ...new Set([...prev, ...ingredientsToSelect])
+                                ]);
+                                setIncludedIngredients((prev) =>
+                                    prev.filter((i) => !ingredientsToSelect.includes(i))
+                                );
+                            }
+                        }}
+                    >
+                        Select all
+                    </button>
+
+                    {mode === "include" ? (
+                        <button
+                            className="bg-[#1E88E5] hover:bg-[#1565C0] text-white font-bold py-2 px-4 rounded"
+                            onClick={() => setMode("exclude")}
+                        >
+                            Next: Exclude ingredients
+                        </button>
+                    ) : (
                         <button
                             className="bg-[#1E88E5] hover:bg-[#1565C0] text-white font-bold py-2 px-4 rounded"
                             onClick={() => {
-                                const ingredientsToSelect = ingredientOptions[currentCategory] || [];
-                                if (mode === "include") {
-                                    setIncludedIngredients((prev) => [
-                                        ...new Set([...prev, ...ingredientsToSelect]),
-                                    ]);
-                                    setExcludedIngredients((prev) =>
-                                        prev.filter((i) => !ingredientsToSelect.includes(i))
-                                    );
-                                } else {
-                                    setExcludedIngredients((prev) => [
-                                        ...new Set([...prev, ...ingredientsToSelect]),
-                                    ]);
-                                    setIncludedIngredients((prev) =>
-                                        prev.filter((i) => !ingredientsToSelect.includes(i))
-                                    );
-                                }
+                                setMode(null);
+                                setCurrentCategory(null);
                             }}
                         >
-                            Select all
+                            Back to preferences
                         </button>
-
-                        {mode === "include" ? (
-                            <button
-                                className="bg-[#1E88E5] hover:bg-[#1565C0] text-white font-bold py-2 px-4 rounded"
-                                onClick={() => setMode("exclude")}
-                            >
-                                Next: Exclude ingredients
-                            </button>
-                        ) : (
-                            <button
-                                className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
-                                onClick={() => {
-                                    setMode(null);
-                                    setCurrentCategory(null);
-                                }}
-                            >
-                                Back to preferences
-                            </button>
-                        )}
-                    </div>
+                    )}
                 </div>
             </main>
         );
     }
 
-    useEffect(() => {
-        speakVisibleText();
-    }, []);
     return (
         <main className="p-6 flex flex-col items-center text-center">
             <div className="w-32 h-32 rounded-md mb-4 flex items-center justify-center">
