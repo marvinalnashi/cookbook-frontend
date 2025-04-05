@@ -12,6 +12,7 @@ interface Recipe {
     id: number;
     title: string;
     description: string;
+    duration: number;
 }
 
 export default function RecipesPage() {
@@ -74,11 +75,14 @@ export default function RecipesPage() {
             {recipes.map((recipe) => (
                 <button
                     key={recipe.id}
-                    className="flex items-center justify-between gap-2 w-full max-w-xs px-4 py-4 rounded-2xl bg-[#B9FBC0] text-lg font-bold mb-4 transition-all hover:bg-[#34D399] text-black hover:text-white"
+                    className="flex items-center gap-4 w-full max-w-xs px-4 py-4 rounded-2xl bg-[#B9FBC0] text-black text-left font-bold mb-4 transition-all hover:bg-[#34D399] hover:text-white"
                     onClick={() => router.push(`/recipes/${recipe.id}/cook`)}
                 >
                     <span className="text-2xl">🍽️</span>
-                    <span className="flex-1 text-center">{recipe.title}</span>
+                    <div className="flex-1">
+                        <div className="text-lg">{recipe.title}</div>
+                        <div className="text-sm text-gray-600">{recipe.duration} minutes</div>
+                    </div>
                     <span className="text-sm">🔍</span>
                 </button>
             ))}

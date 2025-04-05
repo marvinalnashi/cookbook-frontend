@@ -14,6 +14,7 @@ interface Recipe {
     description: string;
     ingredients: string[];
     steps: string[];
+    duration: number;
 }
 
 export default function GuidedCookingPage() {
@@ -98,10 +99,15 @@ export default function GuidedCookingPage() {
 
     return (
         <main className="flex flex-col items-center justify-start w-full px-4 py-6 overflow-y-auto">
-            <div className="flex flex-col items-center mb-6 w-full max-w-md">
+            <div className="flex flex-col mb-6 w-full max-w-md">
                 <h1 className="text-2xl font-bold text-center mb-2">{recipe.title}</h1>
-                <p className="text-center text-md mb-2">{recipe.description}</p>
-                <p className="text-center text-md mb-4">
+                <p className="text-md">
+                    <strong>Description:</strong> {recipe.description}
+                </p>
+                <p className="text-md">
+                    <strong>Duration:</strong> {recipe.duration} minutes
+                </p>
+                <p className="text-md">
                     <strong>Ingredients:</strong> {recipe.ingredients.join(", ")}
                 </p>
 

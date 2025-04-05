@@ -9,6 +9,7 @@ interface Recipe {
     id: number;
     title: string;
     description: string;
+    duration: number;
 }
 
 export default function FilteredRecipesPage() {
@@ -63,7 +64,10 @@ export default function FilteredRecipesPage() {
                     onClick={() => router.push(`/recipes/${recipe.id}/cook`)}
                 >
                     <span className="text-2xl">🍽️</span>
-                    <span className="flex-1 text-center">{recipe.title}</span>
+                    <div className="flex-1">
+                        <div className="text-lg">{recipe.title}</div>
+                        <div className="text-sm text-gray-600">{recipe.duration} minutes</div>
+                    </div>
                     <span className="text-sm">🔍</span>
                 </button>
             ))}

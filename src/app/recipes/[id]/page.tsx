@@ -14,6 +14,7 @@ interface Recipe {
     occasion: string;
     ingredients: string[];
     steps: string[];
+    duration: number;
 }
 
 export default function RecipeDetailPage() {
@@ -54,6 +55,7 @@ export default function RecipeDetailPage() {
         <div className="p-6">
             <h1 className="text-2xl font-bold mb-2">{recipe.title}</h1>
             <p className="mb-4">{recipe.description}</p>
+            <p className="mb-4">{recipe.duration} minutes</p>
             <p><strong>Occasion:</strong> {recipe.occasion}</p>
 
             <h2 className="text-lg font-semibold mt-4">Ingredients</h2>
@@ -74,7 +76,8 @@ export default function RecipeDetailPage() {
                 <button onClick={() => router.back()} className="bg-gray-500 text-white p-4 rounded-md">
                     Back
                 </button>
-                <button onClick={() => router.push(`/recipes/${id}/cook`)} className="bg-green-500 text-white p-4 rounded-md">
+                <button onClick={() => router.push(`/recipes/${id}/cook`)}
+                        className="bg-green-500 text-white p-4 rounded-md">
                     Cook
                 </button>
             </div>

@@ -15,6 +15,7 @@ interface Recipe {
     occasion: string;
     ingredients: string[];
     steps: string[];
+    duration: number;
 }
 
 export default function FreeCookingPage() {
@@ -96,7 +97,8 @@ export default function FreeCookingPage() {
                         <>
                             <h1 className="text-2xl text-white mb-2">{recipe.title}</h1>
                             <p className="text-white mb-4">{recipe.description}</p>
-
+                            <h2 className="text-lg mt-4">Duration</h2>
+                            <div className="text-white mb-4">{recipe.duration} minutes</div>
                             <h2 className="text-lg mt-4">Ingredients</h2>
                             <ul className="list-disc ml-6 text-white mb-4">
                                 {recipe.ingredients.map((ingredient, index) => (
