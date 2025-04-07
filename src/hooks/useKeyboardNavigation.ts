@@ -1,18 +1,9 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { socket } from "@/lib/socket";
-import { v4 as uuidv4 } from "uuid";
+import { navSocket } from "@/lib/socket";
 
 export function useKeyboardNavigation() {
     const [focusedIndex, setFocusedIndex] = useState(0);
-    const [clientId] = useState(() => {
-        const storedId = localStorage.getItem("clientId");
-        if (storedId) return storedId;
-        const newId = uuidv4();
-        localStorage.setItem("clientId", newId);
-        return newId;
-    });
-
     const router = useRouter();
 
     useEffect(() => {
@@ -26,66 +17,95 @@ export function useKeyboardNavigation() {
             });
         };
 
-        const handleEvent = (event: string) => {
-            if (!focusables.length) return;
-            switch (event) {
+        const goBack = () => {
+            window.history.back();
+        };
+
+        const selectHovered = () => {
+            focusables[focusedIndex]?.click();
+        };
+
+        const goHome = () => {
+            router.push("/");
+        };
+
+        const moveUp = () => {
+            setFocusedIndex((prev) => Math.max(prev - 1, 0));
+        };
+
+        const moveDown = () => {
+            setFocusedIndex((prev) => Math.min(prev + 1, focusables.length - 1));
+        };
+
+        const handleNavigationCommand = (command: string) => {
+            switch (command) {
                 case "up":
-                    setFocusedIndex((prev) => Math.max(prev - 1, 0));
+                    moveUp();
                     break;
                 case "down":
-                    setFocusedIndex((prev) => Math.min(prev + 1, focusables.length - 1));
+                    moveDown();
                     break;
                 case "left":
-                    router.back();
+                    goBack();
                     break;
                 case "right":
-                    focusables[focusedIndex]?.click();
+                    selectHovered();
                     break;
                 case "home":
-                    router.push("/");
+                    goHome();
                     break;
             }
         };
 
         const handleKeyDown = (e: KeyboardEvent) => {
+            if (!focusables.length) return;
+
             switch (e.key) {
-                case "ArrowUp":
-                    handleEvent("up");
-                    break;
                 case "ArrowDown":
-                    handleEvent("down");
+                    moveDown();
+                    break;
+                case "ArrowUp":
+                    moveUp();
                     break;
                 case "ArrowLeft":
-                    handleEvent("left");
+                    e.preventDefault();
+                    goBack();
                     break;
                 case "ArrowRight":
-                    handleEvent("right");
+                    e.preventDefault();
+                    selectHovered();
                     break;
                 case " ":
                     e.preventDefault();
-                    handleEvent("home");
+                    goHome();
                     break;
+            }
+        };
+
+        const handleMQTTMessage = (raw: MessageEvent<string>) => {
+            try {
+                const data = JSON.parse(raw.data);
+                const topic: string = data.topic || "";
+                const command = topic.replace("nav/", "");
+                handleNavigationCommand(command);
+            } catch (err) {
+                console.error("Failed to handle MQTT message:", err);
             }
         };
 
         window.addEventListener("keydown", handleKeyDown);
 
-        socket.on("connect", () => {
-            console.log("WebSocket connected");
-            socket.emit("register-client", clientId);
-        });
-
-        socket.on("nav", (data: { event: string; targetId: string }) => {
-            if (data.targetId === clientId) {
-                handleEvent(data.event);
-            }
-        });
+        if (navSocket) {
+            navSocket.addEventListener("message", handleMQTTMessage);
+        }
 
         highlightElement();
 
         return () => {
             window.removeEventListener("keydown", handleKeyDown);
-            socket.off("nav");
+            if (navSocket) {
+                navSocket.removeEventListener("message", handleMQTTMessage);
+            }
         };
     }, [focusedIndex, router]);
 }
