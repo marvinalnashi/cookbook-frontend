@@ -1,25 +1,8 @@
-const WS_BASE = process.env.NEXT_PUBLIC_BACKEND_WS_URL || "wss://little-chefs-cookbook-production.up.railway.app/ws";
+import { io } from "socket.io-client";
 
-let socket: WebSocket | null = null;
+const SOCKET_URL = process.env.NEXT_PUBLIC_BACKEND_URL + "/ws";
 
-if (typeof window !== "undefined") {
-    try {
-        socket = new WebSocket(WS_BASE);
-
-        socket.onopen = () => {
-            console.log("WebSocket connected");
-        };
-
-        socket.onclose = () => {
-            console.log("WebSocket disconnected");
-        };
-
-        socket.onerror = (err) => {
-            console.error("WebSocket error", err);
-        };
-    } catch (error) {
-        console.error("Failed to initialize WebSocket:", error);
-    }
-}
-
-export const navSocket = socket;
+export const socket = io(SOCKET_URL, {
+    transports: ["websocket"],
+    reconnectionAttempts: 5,
+});
