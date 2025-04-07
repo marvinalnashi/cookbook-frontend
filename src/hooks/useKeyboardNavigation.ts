@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { socket } from "@/lib/socket";
 
 export function useKeyboardNavigation() {
     const [focusedIndex, setFocusedIndex] = useState(0);
@@ -25,70 +24,44 @@ export function useKeyboardNavigation() {
 
         const handleNavigationCommand = (command: string) => {
             switch (command) {
-                case "up":
-                    moveUp();
-                    break;
-                case "down":
-                    moveDown();
-                    break;
-                case "left":
-                    goBack();
-                    break;
-                case "right":
-                    selectHovered();
-                    break;
-                case "home":
-                    goHome();
-                    break;
-                default:
-                    console.warn("Unknown MQTT command:", command);
+                case "up": moveUp(); break;
+                case "down": moveDown(); break;
+                case "left": goBack(); break;
+                case "right": selectHovered(); break;
+                case "home": goHome(); break;
             }
         };
 
         const handleKeyDown = (e: KeyboardEvent) => {
             if (!focusables.length) return;
-
             switch (e.key) {
-                case "ArrowDown":
-                    moveDown();
-                    break;
-                case "ArrowUp":
-                    moveUp();
-                    break;
-                case "ArrowLeft":
-                    e.preventDefault();
-                    goBack();
-                    break;
-                case "ArrowRight":
-                    e.preventDefault();
-                    selectHovered();
-                    break;
-                case " ":
-                    e.preventDefault();
-                    goHome();
-                    break;
+                case "ArrowDown": moveDown(); break;
+                case "ArrowUp": moveUp(); break;
+                case "ArrowLeft": e.preventDefault(); goBack(); break;
+                case "ArrowRight": e.preventDefault(); selectHovered(); break;
+                case " ": e.preventDefault(); goHome(); break;
             }
         };
 
-        const handleMQTTMessage = (event: MessageEvent) => {
+        const ws = new WebSocket("wss://little-chefs-cookbook-production.up.railway.app/ws");
+
+        ws.addEventListener("message", (event) => {
             try {
-                const message = JSON.parse(event.data);
-                if (message.topic?.startsWith("nav/")) {
-                    const command = message.topic.split("/")[1];
-                    handleNavigationCommand(command);
+                const data = JSON.parse(event.data);
+                if (data?.type === "nav" && typeof data.command === "string") {
+                    handleNavigationCommand(data.command);
                 }
-            } catch (error) {
-                console.error("MQTT message parsing failed:", error);
+            } catch (err) {
+                console.error("Invalid WS message", err);
             }
-        };
+        });
 
         window.addEventListener("keydown", handleKeyDown);
-        socket?.addEventListener("message", handleMQTTMessage);
         highlightElement();
 
         return () => {
             window.removeEventListener("keydown", handleKeyDown);
-            socket?.removeEventListener("message", handleMQTTMessage);
+            ws.close();
         };
     }, [focusedIndex, router]);
 }
