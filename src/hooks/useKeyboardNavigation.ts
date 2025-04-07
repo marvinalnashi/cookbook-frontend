@@ -1,13 +1,23 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { socket } from "@/lib/socket";
+import { v4 as uuidv4 } from "uuid";
 
 export function useKeyboardNavigation() {
     const [focusedIndex, setFocusedIndex] = useState(0);
+    const [clientId] = useState(() => {
+        const storedId = localStorage.getItem("clientId");
+        if (storedId) return storedId;
+        const newId = uuidv4();
+        localStorage.setItem("clientId", newId);
+        return newId;
+    });
+
     const router = useRouter();
 
     useEffect(() => {
         const focusables = Array.from(document.querySelectorAll("button"));
+
         const highlightElement = () => {
             focusables.forEach((el, index) => {
                 el.classList.toggle("ring-4", index === focusedIndex);
@@ -18,7 +28,6 @@ export function useKeyboardNavigation() {
 
         const handleEvent = (event: string) => {
             if (!focusables.length) return;
-
             switch (event) {
                 case "up":
                     setFocusedIndex((prev) => Math.max(prev - 1, 0));
@@ -63,14 +72,13 @@ export function useKeyboardNavigation() {
 
         socket.on("connect", () => {
             console.log("WebSocket connected");
+            socket.emit("register-client", clientId);
         });
 
-        socket.on("disconnect", () => {
-            console.log("WebSocket disconnected");
-        });
-
-        socket.on("nav", (data: { event: string }) => {
-            handleEvent(data.event);
+        socket.on("nav", (data: { event: string; targetId: string }) => {
+            if (data.targetId === clientId) {
+                handleEvent(data.event);
+            }
         });
 
         highlightElement();
