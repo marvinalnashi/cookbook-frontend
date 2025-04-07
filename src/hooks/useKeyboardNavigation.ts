@@ -21,11 +21,21 @@ export function useKeyboardNavigation() {
 
         const handleEvent = (event: string) => {
             switch (event) {
-                case "up": setFocusedIndex(prev => Math.max(prev - 1, 0)); break;
-                case "down": setFocusedIndex(prev => Math.min(prev + 1, focusables.length - 1)); break;
-                case "left": router.back(); break;
-                case "right": focusables[focusedIndex]?.click(); break;
-                case "home": router.push("/"); break;
+                case "up":
+                    setFocusedIndex((prev) => Math.max(prev - 1, 0));
+                    break;
+                case "down":
+                    setFocusedIndex((prev) => Math.min(prev + 1, focusables.length - 1));
+                    break;
+                case "left":
+                    router.back();
+                    break;
+                case "right":
+                    focusables[focusedIndex]?.click();
+                    break;
+                case "home":
+                    router.push("/");
+                    break;
             }
         };
 
@@ -40,6 +50,32 @@ export function useKeyboardNavigation() {
             }
         };
 
+        const handleKeyDown = (e: KeyboardEvent) => {
+            switch (e.key) {
+                case "ArrowUp":
+                    e.preventDefault();
+                    handleEvent("up");
+                    break;
+                case "ArrowDown":
+                    e.preventDefault();
+                    handleEvent("down");
+                    break;
+                case "ArrowLeft":
+                    e.preventDefault();
+                    handleEvent("left");
+                    break;
+                case "ArrowRight":
+                    e.preventDefault();
+                    handleEvent("right");
+                    break;
+                case " ":
+                    e.preventDefault();
+                    handleEvent("home");
+                    break;
+            }
+        };
+
+        window.addEventListener("keydown", handleKeyDown);
         highlight();
 
         if (socket) {
@@ -47,6 +83,7 @@ export function useKeyboardNavigation() {
         }
 
         return () => {
+            window.removeEventListener("keydown", handleKeyDown);
             if (socket) {
                 socket.removeEventListener("message", handleSocketMessage);
             }
