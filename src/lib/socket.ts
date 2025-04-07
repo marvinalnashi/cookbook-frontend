@@ -22,4 +22,4 @@ if (typeof window !== "undefined") {
     }
 }
 
-export const navSocket = socket;
+export { socket };
