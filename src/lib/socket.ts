@@ -1,12 +1,25 @@
-import { io } from "socket.io-client";
+const WS_BASE = process.env.NEXT_PUBLIC_BACKEND_WS_URL || "wss://little-chefs-cookbook-production.up.railway.app/ws";
 
-// const SOCKET_URL = process.env.NEXT_PUBLIC_BACKEND_URL + "/ws" || "wss://little-chefs-cookbook-production.up.railway.app/ws";
+let socket: WebSocket | null = null;
 
-// export const socket = io(SOCKET_URL, {
-//     transports: ["websocket"],
-//     reconnectionAttempts: 5,
-// });
+if (typeof window !== "undefined") {
+    try {
+        socket = new WebSocket(WS_BASE);
 
-export const navSocket = io(`${process.env.NEXT_PUBLIC_BACKEND_URL}/nav`, {
-    transports: ["websocket"]
-});
+        socket.onopen = () => {
+            console.log("WebSocket connected");
+        };
+
+        socket.onclose = () => {
+            console.log("WebSocket disconnected");
+        };
+
+        socket.onerror = (err) => {
+            console.error("WebSocket error", err);
+        };
+    } catch (error) {
+        console.error("Failed to initialize WebSocket:", error);
+    }
+}
+
+export const navSocket = socket;

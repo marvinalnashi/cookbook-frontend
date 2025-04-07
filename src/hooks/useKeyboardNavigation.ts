@@ -30,11 +30,31 @@ export function useKeyboardNavigation() {
         };
 
         const moveUp = () => {
-            setFocusedIndex(prev => Math.max(prev - 1, 0));
+            setFocusedIndex((prev) => Math.max(prev - 1, 0));
         };
 
         const moveDown = () => {
-            setFocusedIndex(prev => Math.min(prev + 1, focusables.length - 1));
+            setFocusedIndex((prev) => Math.min(prev + 1, focusables.length - 1));
+        };
+
+        const handleNavigationCommand = (command: string) => {
+            switch (command) {
+                case "up":
+                    moveUp();
+                    break;
+                case "down":
+                    moveDown();
+                    break;
+                case "left":
+                    goBack();
+                    break;
+                case "right":
+                    selectHovered();
+                    break;
+                case "home":
+                    goHome();
+                    break;
+            }
         };
 
         const handleKeyDown = (e: KeyboardEvent) => {
@@ -62,42 +82,30 @@ export function useKeyboardNavigation() {
             }
         };
 
-        const handleMQTTMessage = (raw: any) => {
-            if (!focusables.length) return;
-
+        const handleMQTTMessage = (raw: MessageEvent<string>) => {
             try {
-                const { topic } = JSON.parse(raw);
-                const direction = topic.replace("nav/", "");
-
-                switch (direction) {
-                    case "up":
-                        moveUp();
-                        break;
-                    case "down":
-                        moveDown();
-                        break;
-                    case "left":
-                        goBack();
-                        break;
-                    case "right":
-                        selectHovered();
-                        break;
-                    case "home":
-                        goHome();
-                        break;
-                }
+                const data = JSON.parse(raw.data);
+                const topic: string = data.topic || "";
+                const command = topic.replace("nav/", "");
+                handleNavigationCommand(command);
             } catch (err) {
-                console.error("MQTT parse error:", err);
+                console.error("Failed to handle MQTT message:", err);
             }
         };
 
         window.addEventListener("keydown", handleKeyDown);
-        navSocket.on("message", handleMQTTMessage);
+
+        if (navSocket) {
+            navSocket.addEventListener("message", handleMQTTMessage);
+        }
+
         highlightElement();
 
         return () => {
             window.removeEventListener("keydown", handleKeyDown);
-            navSocket.off("message", handleMQTTMessage);
+            if (navSocket) {
+                navSocket.removeEventListener("message", handleMQTTMessage);
+            }
         };
     }, [focusedIndex, router]);
 }
