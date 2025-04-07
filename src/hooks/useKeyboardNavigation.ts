@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { socket } from "@/lib/socket";
+import { navSocket } from "@/lib/socket";
 
 export function useKeyboardNavigation() {
     const [focusedIndex, setFocusedIndex] = useState(0);
@@ -17,11 +17,25 @@ export function useKeyboardNavigation() {
             });
         };
 
-        const goBack = () => window.history.back();
-        const selectHovered = () => focusables[focusedIndex]?.click();
-        const goHome = () => router.push("/");
-        const moveUp = () => setFocusedIndex((prev) => Math.max(prev - 1, 0));
-        const moveDown = () => setFocusedIndex((prev) => Math.min(prev + 1, focusables.length - 1));
+        const goBack = () => {
+            window.history.back();
+        };
+
+        const selectHovered = () => {
+            focusables[focusedIndex]?.click();
+        };
+
+        const goHome = () => {
+            router.push("/");
+        };
+
+        const moveUp = () => {
+            setFocusedIndex((prev) => Math.max(prev - 1, 0));
+        };
+
+        const moveDown = () => {
+            setFocusedIndex((prev) => Math.min(prev + 1, focusables.length - 1));
+        };
 
         const handleNavigationCommand = (command: string) => {
             switch (command) {
@@ -40,8 +54,6 @@ export function useKeyboardNavigation() {
                 case "home":
                     goHome();
                     break;
-                default:
-                    console.warn("Unknown MQTT command:", command);
             }
         };
 
@@ -71,24 +83,25 @@ export function useKeyboardNavigation() {
         };
 
         const handleMQTTMessage = (event: MessageEvent) => {
-            try {
-                const message = JSON.parse(event.data);
-                if (message.topic?.startsWith("nav/")) {
-                    const command = message.topic.split("/")[1];
-                    handleNavigationCommand(command);
-                }
-            } catch (error) {
-                console.error("MQTT message parsing failed:", error);
+            const topic = event.data?.toString().trim();
+            if (topic?.startsWith("nav/")) {
+                const command = topic.replace("nav/", "");
+                handleNavigationCommand(command);
             }
         };
 
         window.addEventListener("keydown", handleKeyDown);
-        socket?.addEventListener("message", handleMQTTMessage);
+        if (navSocket) {
+            navSocket.addEventListener("message", handleMQTTMessage);
+        }
+
         highlightElement();
 
         return () => {
             window.removeEventListener("keydown", handleKeyDown);
-            socket?.removeEventListener("message", handleMQTTMessage);
+            if (navSocket) {
+                navSocket.removeEventListener("message", handleMQTTMessage);
+            }
         };
     }, [focusedIndex, router]);
 }
