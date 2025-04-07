@@ -82,19 +82,15 @@ export function useKeyboardNavigation() {
             }
         };
 
-        const handleMQTTMessage = (raw: MessageEvent<string>) => {
-            try {
-                const data = JSON.parse(raw.data);
-                const topic: string = data.topic || "";
+        const handleMQTTMessage = (event: MessageEvent) => {
+            const topic = event.data?.toString().trim();
+            if (topic?.startsWith("nav/")) {
                 const command = topic.replace("nav/", "");
                 handleNavigationCommand(command);
-            } catch (err) {
-                console.error("Failed to handle MQTT message:", err);
             }
         };
 
         window.addEventListener("keydown", handleKeyDown);
-
         if (navSocket) {
             navSocket.addEventListener("message", handleMQTTMessage);
         }
