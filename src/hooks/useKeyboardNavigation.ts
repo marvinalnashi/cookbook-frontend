@@ -5,7 +5,7 @@ import { socket } from "@/lib/socket";
 const uuid = "rpi";
 
 export function useKeyboardNavigation() {
-    const [focusedIndex, setFocusedIndexState] = useState(0);
+    const [, setFocusedIndexState] = useState(0);
     const focusedIndexRef = useRef(0);
     const router = useRouter();
 
