@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { ThemeProvider } from "@/context/ThemeContext";
 import ClientWrapper from "@/components/ClientWrapper";
+import {Toaster} from "react-hot-toast";
 
 export const metadata: Metadata = {
     title: "Little Chef's Cookbook",
@@ -13,6 +14,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <html lang="en" suppressHydrationWarning>
         <body className="flex flex-col items-center justify-start h-screen overflow-y-auto px-6 py-4">
         <ThemeProvider>
+            <Toaster position="top-center" />
             <ClientWrapper>{children}</ClientWrapper>
         </ThemeProvider>
         </body>
