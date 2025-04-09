@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { socket } from "@/lib/socket";
+import { toast } from "react-hot-toast";
 
 const uuid = "rpi";
 
@@ -19,7 +20,7 @@ export function useKeyboardNavigation() {
             });
         };
 
-        const handleEvent = (event: string) => {
+        const handleEvent = (event: string, payload?: any) => {
             switch (event) {
                 case "up":
                     setFocusedIndex((prev) => Math.max(prev - 1, 0));
@@ -36,6 +37,15 @@ export function useKeyboardNavigation() {
                 case "home":
                     router.push("/");
                     break;
+                case "rfid":
+                    if (payload?.ingredient) {
+                        toast.success(`Detected ingredient: ${payload.ingredient}`);
+                        localStorage.setItem("includedIngredients", JSON.stringify([payload.ingredient]));
+                        localStorage.removeItem("excludedIngredients");
+                        localStorage.removeItem("selectedOccasion");
+                        router.push("/filtered");
+                    }
+                    break;
             }
         };
 
@@ -43,7 +53,7 @@ export function useKeyboardNavigation() {
             try {
                 const data = JSON.parse(event.data);
                 if (data.uuid === uuid) {
-                    handleEvent(data.event);
+                    handleEvent(data.event, data.payload);
                 }
             } catch (err) {
                 console.error("Invalid WebSocket message:", err);

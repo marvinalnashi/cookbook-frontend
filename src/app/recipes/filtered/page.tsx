@@ -3,7 +3,8 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import ScrollIndicator from "@/components/ScrollIndicator";
-import {speakVisibleText} from "@/utils/narrator";
+import { speakVisibleText } from "@/utils/narrator";
+import { Toaster } from "react-hot-toast";
 
 interface Recipe {
     id: number;
@@ -31,6 +32,7 @@ export default function FilteredRecipesPage() {
     return (
         <main
             className="flex flex-col items-center justify-start w-full px-4 py-6 overflow-y-auto">
+            <Toaster position="top-center" />
             <div className="w-32 h-32 rounded-md mb-4 flex items-center justify-center">
                 <img
                     src={"/ratwizard4.png"}
