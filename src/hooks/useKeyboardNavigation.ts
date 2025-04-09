@@ -5,6 +5,10 @@ import { toast } from "react-hot-toast";
 
 const uuid = "rpi";
 
+interface NavigationPayload {
+    ingredient?: string;
+}
+
 export function useKeyboardNavigation() {
     const [focusedIndex, setFocusedIndex] = useState(0);
     const router = useRouter();
@@ -20,7 +24,7 @@ export function useKeyboardNavigation() {
             });
         };
 
-        const handleEvent = (event: string, payload?: any) => {
+        const handleEvent = (event: string, payload?: NavigationPayload) => {
             switch (event) {
                 case "up":
                     setFocusedIndex((prev) => Math.max(prev - 1, 0));
