@@ -1,13 +1,9 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { socket } from "@/lib/socket";
 import { toast } from "react-hot-toast";
+import { socket } from "@/lib/socket";
 
 const uuid = "rpi";
-
-interface NavigationPayload {
-    ingredient?: string;
-}
 
 export function useKeyboardNavigation() {
     const [focusedIndex, setFocusedIndex] = useState(0);
@@ -24,7 +20,7 @@ export function useKeyboardNavigation() {
             });
         };
 
-        const handleEvent = (event: string, payload?: NavigationPayload) => {
+        const handleEvent = (event: string) => {
             switch (event) {
                 case "up":
                     setFocusedIndex((prev) => Math.max(prev - 1, 0));
@@ -41,23 +37,23 @@ export function useKeyboardNavigation() {
                 case "home":
                     router.push("/");
                     break;
-                case "rfid":
-                    if (payload?.ingredient) {
-                        toast.success(`Detected ingredient: ${payload.ingredient}`);
-                        localStorage.setItem("includedIngredients", JSON.stringify([payload.ingredient]));
-                        localStorage.removeItem("excludedIngredients");
-                        localStorage.removeItem("selectedOccasion");
-                        router.push("/filtered");
-                    }
-                    break;
             }
         };
 
         const handleSocketMessage = (event: MessageEvent) => {
             try {
                 const data = JSON.parse(event.data);
-                if (data.uuid === uuid) {
-                    handleEvent(data.event, data.payload);
+
+                if (data.uuid !== uuid) return;
+
+                if (data.event) {
+                    handleEvent(data.event);
+                } else if (data.ingredient) {
+                    toast.success(`Ingredient detected: ${data.ingredient}`);
+                    localStorage.setItem("includedIngredients", JSON.stringify([data.ingredient]));
+                    localStorage.setItem("excludedIngredients", JSON.stringify([]));
+                    localStorage.setItem("selectedOccasion", "Any");
+                    router.push("/filtered");
                 }
             } catch (err) {
                 console.error("Invalid WebSocket message:", err);
@@ -91,7 +87,6 @@ export function useKeyboardNavigation() {
 
         window.addEventListener("keydown", handleKeyDown);
         socket?.addEventListener("message", handleSocketMessage);
-
         highlight();
 
         return () => {
