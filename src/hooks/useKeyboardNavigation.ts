@@ -1,9 +1,15 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { toast } from "react-hot-toast";
 import { socket } from "@/lib/socket";
+import toast from "react-hot-toast";
 
 const uuid = "rpi";
+
+interface WebSocketPayload {
+    uuid: string;
+    event?: string;
+    ingredient?: string;
+}
 
 export function useKeyboardNavigation() {
     const [focusedIndex, setFocusedIndex] = useState(0);
@@ -40,21 +46,36 @@ export function useKeyboardNavigation() {
             }
         };
 
+        const handleIngredient = async (ingredient: string) => {
+            toast.success(`Ingredient detected: ${ingredient}`);
+            try {
+                const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/recipes/filter`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        occasion: "Breakfast",
+                        include: [ingredient],
+                        exclude: [],
+                        match_all: false
+                    })
+                });
+
+                const data = await res.json();
+                localStorage.setItem("filteredRecipes", JSON.stringify(data));
+                router.push("/filtered");
+            } catch (err) {
+                toast.error("Failed to fetch filtered recipes");
+                console.error("Error filtering recipes:", err);
+            }
+        };
+
         const handleSocketMessage = (event: MessageEvent) => {
             try {
-                const data = JSON.parse(event.data);
-
+                const data: WebSocketPayload = JSON.parse(event.data);
                 if (data.uuid !== uuid) return;
 
-                if (data.event) {
-                    handleEvent(data.event);
-                } else if (data.ingredient) {
-                    toast.success(`Ingredient detected: ${data.ingredient}`);
-                    localStorage.setItem("includedIngredients", JSON.stringify([data.ingredient]));
-                    localStorage.setItem("excludedIngredients", JSON.stringify([]));
-                    localStorage.setItem("selectedOccasion", "Any");
-                    router.push("/filtered");
-                }
+                if (data.event) handleEvent(data.event);
+                else if (data.ingredient) handleIngredient(data.ingredient);
             } catch (err) {
                 console.error("Invalid WebSocket message:", err);
             }
@@ -87,6 +108,7 @@ export function useKeyboardNavigation() {
 
         window.addEventListener("keydown", handleKeyDown);
         socket?.addEventListener("message", handleSocketMessage);
+
         highlight();
 
         return () => {
