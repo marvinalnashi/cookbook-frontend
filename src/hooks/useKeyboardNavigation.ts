@@ -62,7 +62,7 @@ export function useKeyboardNavigation() {
 
                 const data = await res.json();
                 localStorage.setItem("filteredRecipes", JSON.stringify(data));
-                router.push("/filtered");
+                router.push("/recipes/filtered");
             } catch (err) {
                 toast.error("Failed to fetch filtered recipes");
                 console.error("Error filtering recipes:", err);
